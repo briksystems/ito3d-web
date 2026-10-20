@@ -29,7 +29,7 @@ y entra a http://localhost:8000
 
 ## Lo primero que hay que cambiar
 
-1. **Número de WhatsApp.** Ya está puesto en `script.js` (línea `WHATSAPP_NUMBER`). Si cambia, se edita ahí y se arreglan todos los botones.
+1. **Número de WhatsApp.** En `script.js`, la línea `WHATSAPP_NUMBER`. Con eso se arreglan todos los botones de WhatsApp del sitio.
 2. **Textos entre corchetes.** Busca `[PRECIO]`, `[NÚMERO]`, `[DOMINIO]`, `[RUT / NIT]`, `[X]`, `[VALOR]`, `[DESCRIPCIÓN CORTA]` y `[ANCHO × LARGO × ALTO]`.
 3. **Fotos.** Los bloques con clase `ph` son fotos de relleno. Busca los comentarios `FOTO PENDIENTE` y `VIDEO PENDIENTE`. Se reemplaza el bloque por una etiqueta `<img>` con su texto `alt`.
 
