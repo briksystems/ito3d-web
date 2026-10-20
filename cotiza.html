@@ -216,20 +216,49 @@
   </footer>
 
 
-  <dialog class="modal" id="catalogo" aria-labelledby="catalogo-titulo">
-    <div class="modal__box">
-      <div class="modal__head">
-        <h2 id="catalogo-titulo">Tienda</h2>
-        <button class="icon-btn" type="button" data-cerrar aria-label="Cerrar catálogo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <dialog class="modal modal--shop" id="catalogo" aria-labelledby="catalogo-titulo">
+    <div class="shop">
+      <div class="shop__head">
+        <div>
+          <h2 id="catalogo-titulo">Tienda</h2>
+          <p class="shop__frase" id="catalogo-frase"></p>
+        </div>
+        <button class="icon-btn" type="button" data-cerrar aria-label="Cerrar tienda"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
-      <p class="modal__frase" id="catalogo-frase"></p>
+
       <div class="chips" id="catalogo-chips" role="group" aria-label="Categorías"></div>
-      <div class="field catalog-search">
-        <label for="catalogo-buscar">Buscar</label>
-        <input id="catalogo-buscar" type="search" placeholder="Bandeja, florero, soporte…" autocomplete="off">
+
+      <div class="shop__tools">
+        <div class="field shop__search">
+          <label for="catalogo-buscar" class="sr-only">Buscar productos</label>
+          <input id="catalogo-buscar" type="search" placeholder="Buscar: bandeja, florero, soporte…" autocomplete="off">
+        </div>
+        <button class="btn btn--outline btn--sm shop__filters-btn" type="button" id="catalogo-filtros-btn" aria-expanded="false" aria-controls="catalogo-filtros">
+          Filtros <span class="shop__filters-n" id="filtros-n" hidden></span>
+        </button>
+        <div class="field shop__sort">
+          <label for="catalogo-orden">Ordenar por</label>
+          <select id="catalogo-orden">
+            <option value="destacados">Destacados</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+            <option value="nuevos">Más nuevos</option>
+            <option value="nombre">Nombre, de la A a la Z</option>
+          </select>
+        </div>
       </div>
-      <p class="modal__vacio" id="catalogo-vacio" hidden>No encontramos productos con esa búsqueda.</p>
-      <div class="catalog-grid" id="catalogo-lista"></div>
+
+      <div class="shop__body">
+        <aside class="filters" id="catalogo-filtros" aria-label="Filtros"></aside>
+        <div class="results" id="catalogo-resultados">
+          <p class="results__count" id="catalogo-conteo" role="status" aria-live="polite"></p>
+          <div class="catalog-grid" id="catalogo-lista"></div>
+          <div class="results__empty" id="catalogo-vacio" hidden>
+            <p>No hay productos con esos filtros.</p>
+            <button class="btn btn--outline btn--sm" type="button" id="catalogo-vacio-limpiar">Quitar filtros</button>
+          </div>
+        </div>
+      </div>
     </div>
   </dialog>
 

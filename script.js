@@ -134,89 +134,323 @@
     });
   }
 
-  /* 2. Catálogo --------------------------------------------------------- */
+  /* 2. Tienda: ventana de catálogo con filtros ------------------------- */
 
-  var estadoCatalogo = { categoria: "todo", texto: "" };
-
-  function abrirCatalogo(categoria, enfocarBusqueda) {
-    var dialogo = document.getElementById("catalogo");
-    if (!dialogo) return;
-    estadoCatalogo.categoria = categoriaPorId(categoria) ? categoria : "todo";
-    estadoCatalogo.texto = "";
-    var buscar = document.getElementById("catalogo-buscar");
-    if (buscar) buscar.value = "";
-    dibujarCatalogo();
-    abrirVentana(dialogo);
-    if (enfocarBusqueda && buscar) buscar.focus();
+  function filtrosVacios() {
+    return { texto: "", min: "", max: "", tamanos: {}, materiales: {}, colores: {} };
   }
 
-  function dibujarCatalogo() {
-    var titulo = document.getElementById("catalogo-titulo");
-    var frase = document.getElementById("catalogo-frase");
-    var chips = document.getElementById("catalogo-chips");
+  var tienda = { categoria: "todo", orden: "destacados", f: filtrosVacios() };
+
+  function tamanoDe(p) {
+    var mayor = Math.max.apply(null, p.medidas && p.medidas.length ? p.medidas : [0]);
+    var lista = CATALOGO.tamanos || [];
+    for (var i = 0; i < lista.length; i++) {
+      if (mayor <= lista[i].hasta) return lista[i];
+    }
+    return lista.length ? lista[lista.length - 1] : { id: "", nombre: "" };
+  }
+
+  function materialDe(p) {
+    var lista = CATALOGO.materiales || [];
+    for (var i = 0; i < lista.length; i++) {
+      if (lista[i].id === p.material) return lista[i];
+    }
+    return null;
+  }
+
+  function medidasTexto(p) {
+    return p.medidas && p.medidas.length ? p.medidas.join(" × ") + " cm" : "[ANCHO × LARGO × ALTO] cm";
+  }
+
+  function coloresDelCatalogo() {
+    var usados = {};
+    CATALOGO.productos.forEach(function (p) {
+      (p.colores || []).forEach(function (c) { usados[c] = true; });
+    });
+    return Object.keys(CLASE_COLOR).filter(function (c) { return usados[c]; });
+  }
+
+  function hayMarcados(grupo) {
+    return Object.keys(grupo).some(function (k) { return grupo[k]; });
+  }
+
+  function productosFiltrados() {
+    var f = tienda.f;
+    var texto = f.texto.trim().toLowerCase();
+    var min = f.min === "" ? null : Number(f.min);
+    var max = f.max === "" ? null : Number(f.max);
+
+    var lista = CATALOGO.productos.filter(function (p) {
+      if (tienda.categoria !== "todo" && p.categoria !== tienda.categoria) return false;
+      if (texto && p.nombre.toLowerCase().indexOf(texto) === -1) return false;
+      if (min !== null || max !== null) {
+        if (p.precio === null || p.precio === undefined) return false;
+        if (min !== null && p.precio < min) return false;
+        if (max !== null && p.precio > max) return false;
+      }
+      if (hayMarcados(f.tamanos) && !f.tamanos[tamanoDe(p).id]) return false;
+      if (hayMarcados(f.materiales) && !f.materiales[p.material]) return false;
+      if (hayMarcados(f.colores) && !(p.colores || []).some(function (c) { return f.colores[c]; })) return false;
+      return true;
+    });
+
+    var precio = function (p) { return p.precio === null || p.precio === undefined ? Infinity : p.precio; };
+    var posicion = function (p) { return CATALOGO.productos.indexOf(p); };
+    lista.sort(function (a, b) {
+      switch (tienda.orden) {
+        case "precio-asc": return precio(a) - precio(b);
+        case "precio-desc": return (precio(b) === Infinity ? -1 : precio(b)) - (precio(a) === Infinity ? -1 : precio(a));
+        case "nuevos": return String(b.creado || "").localeCompare(String(a.creado || ""));
+        case "nombre": return a.nombre.localeCompare(b.nombre, "es");
+        default: return (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0) || posicion(a) - posicion(b);
+      }
+    });
+    return lista;
+  }
+
+  function filtrosActivos() {
+    var f = tienda.f;
+    var n = 0;
+    if (f.min !== "" || f.max !== "") n += 1;
+    if (hayMarcados(f.tamanos)) n += 1;
+    if (hayMarcados(f.materiales)) n += 1;
+    if (hayMarcados(f.colores)) n += 1;
+    return n;
+  }
+
+  /* Panel de filtros: se arma una vez cada vez que se abre la tienda */
+  function grupoDeChecks(titulo, grupo, opciones) {
+    var set = crear("fieldset", "filter");
+    set.appendChild(crear("legend", "", titulo));
+    opciones.forEach(function (o) {
+      var label = crear("label", "check");
+      var input = document.createElement("input");
+      input.type = "checkbox";
+      input.setAttribute("data-grupo", grupo);
+      input.value = o.id;
+      input.checked = !!tienda.f[grupo][o.id];
+      label.appendChild(input);
+      if (o.clase) label.appendChild(crear("span", "dot " + o.clase));
+      var texto = crear("span", "check__text");
+      texto.appendChild(document.createTextNode(o.nombre));
+      if (o.detalle) texto.appendChild(crear("small", "", o.detalle));
+      label.appendChild(texto);
+      set.appendChild(label);
+    });
+    return set;
+  }
+
+  function construirFiltros() {
+    var panel = document.getElementById("catalogo-filtros");
+    if (!panel) return;
+    panel.textContent = "";
+
+    var precio = crear("fieldset", "filter");
+    precio.appendChild(crear("legend", "", "Precio (COP)"));
+    var fila = crear("div", "filter__price");
+    [["min", "Desde"], ["max", "Hasta"]].forEach(function (par) {
+      var campo = crear("div", "field");
+      var etiqueta = crear("label", "", par[1]);
+      etiqueta.htmlFor = "filtro-" + par[0];
+      var input = document.createElement("input");
+      input.type = "number";
+      input.id = "filtro-" + par[0];
+      input.min = "0";
+      input.step = "1000";
+      input.inputMode = "numeric";
+      input.placeholder = par[0] === "min" ? "0" : "Sin tope";
+      input.setAttribute("data-precio", par[0]);
+      input.value = tienda.f[par[0]];
+      campo.appendChild(etiqueta);
+      campo.appendChild(input);
+      fila.appendChild(campo);
+    });
+    precio.appendChild(fila);
+    panel.appendChild(precio);
+
+    panel.appendChild(grupoDeChecks("Tamaño", "tamanos", CATALOGO.tamanos || []));
+    panel.appendChild(grupoDeChecks("Material", "materiales", CATALOGO.materiales || []));
+    panel.appendChild(grupoDeChecks("Color", "colores", coloresDelCatalogo().map(function (c) {
+      return { id: c, nombre: c, clase: "dot--" + CLASE_COLOR[c] };
+    })));
+
+    var limpiar = crear("button", "link-btn filters__clear", "Quitar todos los filtros");
+    limpiar.type = "button";
+    limpiar.id = "catalogo-limpiar";
+    panel.appendChild(limpiar);
+
+    var aplicar = crear("button", "btn btn--primary btn--block filters__apply", "Ver productos");
+    aplicar.type = "button";
+    aplicar.id = "catalogo-aplicar";
+    panel.appendChild(aplicar);
+  }
+
+  function tarjetaDeProducto(p) {
+    var item = crear("article", "cat-item");
+
+    var enlace = crear("a", "cat-item__link");
+    enlace.href = "producto.html?id=" + encodeURIComponent(p.id);
+    var media = crear("div", "cat-item__media");
+    media.appendChild(crear("div", "ph ph--" + p.categoria, "Foto del producto"));
+    if (p.ejemplo) media.appendChild(crear("span", "badge-ejemplo", "Ejemplo"));
+    enlace.appendChild(media);
+    enlace.appendChild(crear("h3", "cat-item__name", p.nombre));
+    item.appendChild(enlace);
+
+    var mat = materialDe(p);
+    var meta = tamanoDe(p).nombre + (mat ? " · " + mat.nombre.split(" (")[0] : "");
+    item.appendChild(crear("p", "cat-item__meta", meta));
+
+    var fila = crear("div", "cat-item__row");
+    fila.appendChild(crear("span", "cat-item__price", precioTexto(p.precio)));
+    fila.appendChild(puntosDeColor(p.colores));
+    item.appendChild(fila);
+
+    var boton = crear("button", "btn btn--primary btn--sm", "Agregar");
+    boton.type = "button";
+    boton.setAttribute("data-agregar", p.id);
+    boton.setAttribute("aria-label", "Agregar " + p.nombre + " al carrito");
+    item.appendChild(boton);
+    return item;
+  }
+
+  function dibujarTienda() {
     var lista = document.getElementById("catalogo-lista");
-    var vacio = document.getElementById("catalogo-vacio");
     if (!lista) return;
 
-    var cat = categoriaPorId(estadoCatalogo.categoria);
-    titulo.textContent = cat ? cat.nombre : "Tienda";
-    frase.textContent = cat ? cat.frase : "Todo lo que fabricamos, hecho a pedido.";
+    var cat = categoriaPorId(tienda.categoria);
+    document.getElementById("catalogo-titulo").textContent = cat ? cat.nombre : "Tienda";
+    document.getElementById("catalogo-frase").textContent = cat ? cat.frase : "Todo lo que fabricamos, hecho a pedido.";
 
     // Botones de categoría
+    var chips = document.getElementById("catalogo-chips");
     chips.textContent = "";
     [{ id: "todo", nombre: "Todo" }].concat(CATALOGO.categorias).forEach(function (c) {
       var b = crear("button", "chip", c.nombre);
       b.type = "button";
-      var activo = c.id === estadoCatalogo.categoria;
+      var activo = c.id === tienda.categoria;
       b.setAttribute("aria-pressed", String(activo));
       if (activo) b.classList.add("is-active");
       b.addEventListener("click", function () {
-        estadoCatalogo.categoria = c.id;
-        dibujarCatalogo();
+        tienda.categoria = c.id;
+        dibujarTienda();
+        var res = document.getElementById("catalogo-resultados");
+        if (res) res.scrollTop = 0;
       });
       chips.appendChild(b);
     });
 
-    // Productos
-    var texto = estadoCatalogo.texto.trim().toLowerCase();
-    var productos = CATALOGO.productos.filter(function (p) {
-      var okCat = estadoCatalogo.categoria === "todo" || p.categoria === estadoCatalogo.categoria;
-      var okTexto = !texto || p.nombre.toLowerCase().indexOf(texto) !== -1;
-      return okCat && okTexto;
-    });
-
+    // Resultados
+    var productos = productosFiltrados();
     lista.textContent = "";
-    vacio.hidden = productos.length > 0;
-    productos.forEach(function (p) {
-      var item = crear("article", "cat-item");
-      var enlace = crear("a", "cat-item__link");
-      enlace.href = "producto.html?id=" + encodeURIComponent(p.id);
-      enlace.appendChild(crear("div", "ph ph--" + p.categoria, "Foto del producto"));
-      enlace.appendChild(crear("h3", "cat-item__name", p.nombre));
-      item.appendChild(enlace);
+    productos.forEach(function (p) { lista.appendChild(tarjetaDeProducto(p)); });
 
-      var fila = crear("div", "cat-item__row");
-      fila.appendChild(crear("span", "cat-item__price", precioTexto(p.precio)));
-      fila.appendChild(puntosDeColor(p.colores));
-      item.appendChild(fila);
+    var n = productos.length;
+    var texto = n + (n === 1 ? " producto" : " productos");
+    document.getElementById("catalogo-conteo").textContent = texto;
+    document.getElementById("catalogo-vacio").hidden = n > 0;
 
-      var boton = crear("button", "btn btn--primary btn--sm", "Agregar");
-      boton.type = "button";
-      boton.setAttribute("data-agregar", p.id);
-      boton.setAttribute("aria-label", "Agregar " + p.nombre + " al carrito");
-      item.appendChild(boton);
-      lista.appendChild(item);
-    });
+    var activos = filtrosActivos();
+    var marca = document.getElementById("filtros-n");
+    if (marca) {
+      marca.textContent = activos ? String(activos) : "";
+      marca.hidden = activos === 0;
+    }
+    var aplicar = document.getElementById("catalogo-aplicar");
+    if (aplicar) aplicar.textContent = "Ver " + texto;
+    var limpiar = document.getElementById("catalogo-limpiar");
+    if (limpiar) limpiar.hidden = activos === 0 && tienda.f.texto === "";
+  }
+
+  function abrirCatalogo(categoria, enfocarBusqueda) {
+    var dialogo = document.getElementById("catalogo");
+    if (!dialogo) return;
+
+    tienda.categoria = categoriaPorId(categoria) ? categoria : "todo";
+    tienda.f = filtrosVacios();
+    tienda.orden = "destacados";
+
+    var buscar = document.getElementById("catalogo-buscar");
+    var orden = document.getElementById("catalogo-orden");
+    var panel = document.getElementById("catalogo-filtros");
+    var boton = document.getElementById("catalogo-filtros-btn");
+    if (buscar) buscar.value = "";
+    if (orden) orden.value = "destacados";
+    if (panel) panel.classList.remove("is-open");
+    if (boton) boton.setAttribute("aria-expanded", "false");
+
+    construirFiltros();
+    dibujarTienda();
+    abrirVentana(dialogo);
+    var res = document.getElementById("catalogo-resultados");
+    if (res) res.scrollTop = 0;
+    if (enfocarBusqueda && buscar) buscar.focus();
   }
 
   function setupCatalogo() {
     var buscar = document.getElementById("catalogo-buscar");
+    var orden = document.getElementById("catalogo-orden");
+    var panel = document.getElementById("catalogo-filtros");
+    var boton = document.getElementById("catalogo-filtros-btn");
+    if (!panel) return;
+
     if (buscar) {
       buscar.addEventListener("input", function () {
-        estadoCatalogo.texto = buscar.value;
-        dibujarCatalogo();
+        tienda.f.texto = buscar.value;
+        dibujarTienda();
       });
     }
+
+    if (orden) {
+      orden.addEventListener("change", function () {
+        tienda.orden = orden.value;
+        dibujarTienda();
+      });
+    }
+
+    // En el celular los filtros se abren y se cierran con este botón
+    if (boton) {
+      boton.addEventListener("click", function () {
+        var abierto = !panel.classList.contains("is-open");
+        panel.classList.toggle("is-open", abierto);
+        boton.setAttribute("aria-expanded", String(abierto));
+      });
+    }
+
+    panel.addEventListener("input", function (e) {
+      var campo = e.target;
+      var precio = campo.getAttribute("data-precio");
+      var grupo = campo.getAttribute("data-grupo");
+      if (precio) tienda.f[precio] = campo.value;
+      else if (grupo) tienda.f[grupo][campo.value] = campo.checked;
+      dibujarTienda();
+    });
+
+    panel.addEventListener("click", function (e) {
+      if (e.target.closest("#catalogo-limpiar")) {
+        tienda.f = filtrosVacios();
+        if (buscar) buscar.value = "";
+        construirFiltros();
+        dibujarTienda();
+      } else if (e.target.closest("#catalogo-aplicar")) {
+        panel.classList.remove("is-open");
+        if (boton) boton.setAttribute("aria-expanded", "false");
+        var res = document.getElementById("catalogo-resultados");
+        if (res) res.scrollTop = 0;
+      }
+    });
+
+    var vaciar = document.getElementById("catalogo-vacio-limpiar");
+    if (vaciar) {
+      vaciar.addEventListener("click", function () {
+        tienda.f = filtrosVacios();
+        if (buscar) buscar.value = "";
+        construirFiltros();
+        dibujarTienda();
+      });
+    }
+
     // Entrar con #tienda abre el catálogo completo
     if (window.location.hash === "#tienda") abrirCatalogo("todo");
   }
@@ -451,8 +685,10 @@
     document.getElementById("crumb-producto").textContent = p.nombre;
     document.getElementById("producto-precio").textContent = precioTexto(p.precio);
     document.getElementById("producto-desc").textContent = p.descripcion || "[DESCRIPCIÓN CORTA]";
-    document.getElementById("spec-medidas").textContent = p.medidas || "[ANCHO × LARGO × ALTO] cm";
-    document.getElementById("spec-material").textContent = p.material || "[MATERIAL]";
+    document.getElementById("spec-medidas").textContent = medidasTexto(p);
+    var mat = materialDe(p);
+    document.getElementById("spec-material").textContent = mat ? mat.detalle : "[MATERIAL]";
+    document.getElementById("producto-ejemplo").hidden = !p.ejemplo;
     document.getElementById("producto-dias").textContent =
       "Se fabrica en " + (p.dias ? p.dias : "[X]") + " días hábiles · envío a todo el país";
 

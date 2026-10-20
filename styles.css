@@ -2051,3 +2051,290 @@ html:has(dialog[open]) {
     animation: none;
   }
 }
+
+/* 11. CARRITO A TODO EL ANCHO EN CELULAR */
+.modal--drawer {
+  max-width: none;
+}
+
+/* 12. TIENDA: VENTANA GRANDE CON FILTROS ---------------------------------- */
+
+.modal--shop {
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  border-radius: 0;
+}
+
+.shop {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  padding: 16px 16px 0;
+}
+
+.shop__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shop__head h2 {
+  font-size: 28px;
+  letter-spacing: -0.01em;
+}
+
+.shop__head .icon-btn {
+  flex: none;
+  border: 1px solid #d6cec1;
+}
+
+.shop__frase {
+  margin-top: 2px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.shop__tools {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.shop__search {
+  grid-column: 1 / -1;
+}
+
+.shop__sort {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.shop__sort label {
+  white-space: nowrap;
+}
+
+.shop__sort select {
+  min-width: 0;
+}
+
+.shop__filters-n {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+}
+
+.shop__body {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  margin-inline: -16px;
+  padding-inline: 16px;
+  overflow-y: auto;
+}
+
+/* Filtros en el celular: panel que se abre sobre los resultados */
+.filters {
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--sand-soft);
+}
+
+.filters.is-open {
+  display: flex;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  border: 0;
+}
+
+.filter legend {
+  margin-bottom: 4px;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.filter__price {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.filter .check {
+  align-items: center;
+  min-height: 36px;
+  cursor: pointer;
+}
+
+.filter .check input {
+  margin-top: 0;
+}
+
+.check__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.check__text small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.filters__clear {
+  align-self: flex-start;
+}
+
+.results {
+  min-width: 0;
+  padding-bottom: 24px;
+}
+
+.results__count {
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.results__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 32px 0;
+  color: var(--muted);
+}
+
+.cat-item__media {
+  position: relative;
+}
+
+.cat-item__meta {
+  margin-top: -4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.badge-ejemplo,
+.tag-ejemplo {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge-ejemplo {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bone);
+}
+
+.tag-ejemplo {
+  align-self: flex-start;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #f7e6b8;
+  color: #4d3a05;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .modal--shop {
+    width: min(1240px, calc(100% - 32px));
+    height: calc(100dvh - 32px);
+    border-radius: var(--radius-l);
+  }
+
+  .shop {
+    gap: 16px;
+    padding: 28px 32px 0;
+  }
+
+  .shop__head h2 {
+    font-size: 40px;
+  }
+
+  .shop__frase {
+    font-size: 16px;
+  }
+
+  .shop__tools {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .shop__search {
+    grid-column: auto;
+  }
+
+  .shop__filters-btn {
+    display: none;
+  }
+
+  .shop__body {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 32px;
+    margin-inline: -32px;
+    padding: 4px 32px 0;
+    overflow: hidden;
+  }
+
+  .filters {
+    display: flex;
+    gap: 22px;
+    margin: 0;
+    padding: 0 8px 24px 0;
+    border-radius: 0;
+    background: transparent;
+    overflow-y: auto;
+  }
+
+  .filters__apply {
+    display: none;
+  }
+
+  .results {
+    padding-right: 4px;
+    overflow-y: auto;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .catalog-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
