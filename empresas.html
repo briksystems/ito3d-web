@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Empresas · ITO 3D</title>
+  <meta name="description" content="Regalos y artículos impresos en 3D con el logo de tu empresa, por volumen. Kits de bienvenida, regalos de fin de año y exhibidores para QR.">
+  <meta name="theme-color" content="#F6F3EE">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="catalogo.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="header-row">
+      <button class="icon-btn menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="logo" href="index.html">
+        <img src="ito3d-horizontal-color.svg" alt="ITO 3D, ir al inicio" width="124" height="40">
+      </a>
+      <div class="header-actions">
+        <a class="icon-btn" href="tienda.html?buscar=1" aria-label="Buscar en la tienda"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>
+        <button class="icon-btn cart-btn" type="button" aria-label="Abrir carrito" data-abrir-carrito><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="cart-count" hidden>0</span></button>
+        <a class="btn btn--wa" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D.">WhatsApp</a>
+      </div>
+      <nav class="main-nav" id="menu-principal" aria-label="Principal">
+        <!-- Empresas y Nosotros aún no tienen página: pendiente en la maqueta -->
+        <a href="index.html">Inicio</a>
+        <a href="tienda.html">Tienda</a>
+        <a href="cotiza.html">Cotiza tu diseño</a>
+        <a href="empresas.html" aria-current="page">Empresas</a>
+        <a href="nosotros.html">Nosotros</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <section class="container page-hero">
+      <nav class="breadcrumb" aria-label="Ruta">
+        <a href="index.html">Inicio</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Empresas</span>
+      </nav>
+      <p class="eyebrow">Empresas</p>
+      <h1>Regalos y artículos con tu logo, por volumen.</h1>
+      <p class="lead">Fabricamos a pedido, en tiradas de la cantidad que necesites. Tu marca, en objetos que se usan todos los días.</p>
+      <div class="page-hero__actions">
+        <a class="btn btn--primary" href="#propuesta">Pedir propuesta</a>
+        <a class="btn btn--outline" href="#" data-wa data-wa-text="Hola, quiero información para mi empresa.">Escribir por WhatsApp</a>
+      </div>
+    </section>
+
+    <section class="container block" aria-labelledby="t-servicios">
+      <h2 id="t-servicios">Qué hacemos para empresas</h2>
+      <ul class="steps steps--cards">
+        <li class="step"><span class="step__num">01</span><span class="step__title">Productos con tu logo</span><span class="step__text">Elige piezas del catálogo y las fabricamos con el logo de tu empresa.</span></li>
+        <li class="step"><span class="step__num">02</span><span class="step__title">Kits de bienvenida</span><span class="step__text">Un set de objetos para quien llega nuevo al equipo, listo para entregar.</span></li>
+        <li class="step"><span class="step__num">03</span><span class="step__title">Regalos de fin de año</span><span class="step__text">Detalles útiles para clientes y empleados, con tu marca y empaque cuidado.</span></li>
+        <li class="step"><span class="step__num">04</span><span class="step__title">Exhibidores para QR de pago</span><span class="step__text">Soportes para el QR de tu negocio, con tu logo y a la medida del mostrador.</span></li>
+      </ul>
+    </section>
+
+    <section class="container block split">
+      <!-- FOTO PENDIENTE: producto con logo de una empresa -->
+      <div class="ph ph--casa split__media">Foto: piezas con el logo de una empresa</div>
+      <div class="split__copy">
+        <h2>Tu logo, bien hecho</h2>
+        <p class="lead">Ponemos el logo en relieve o en un color distinto, según la pieza. Antes de producir todo, te mostramos una muestra para que la apruebes.</p>
+        <p class="lead">Si ya tienes tu logo en archivo, perfecto. Si no, lo preparamos contigo.</p>
+      </div>
+    </section>
+
+    <section class="band block" aria-labelledby="t-volumen">
+      <div class="container">
+        <h2 id="t-volumen">Volúmenes y tiempos</h2>
+        <div class="table-wrap">
+          <table class="vol-table">
+            <caption class="sr-only">Rangos de volumen y tiempos de entrega</caption>
+            <thead>
+              <tr><th scope="col">Pedido</th><th scope="col">Cantidad</th><th scope="col">Entrega</th><th scope="col">Valor</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Pequeño</th><td>[DESDE] a [HASTA] unidades</td><td>[X] días hábiles</td><td>[VALOR] por unidad</td></tr>
+              <tr><th scope="row">Mediano</th><td>[DESDE] a [HASTA] unidades</td><td>[X] días hábiles</td><td>[VALOR] por unidad</td></tr>
+              <tr><th scope="row">Grande</th><td>[DESDE] unidades o más</td><td>Según cantidad</td><td>Se cotiza</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Factura electrónica: disponible próximamente.</p>
+      </div>
+    </section>
+
+    <section class="container block" aria-labelledby="t-pasos-e">
+      <h2 id="t-pasos-e">Cómo trabajamos contigo</h2>
+      <ol class="steps steps--cards">
+        <li class="step"><span class="step__num">01</span><span class="step__title">Nos cuentas qué necesitas</span><span class="step__text">Producto, cantidad y fecha en que lo necesitas.</span></li>
+        <li class="step"><span class="step__num">02</span><span class="step__title">Te enviamos la propuesta</span><span class="step__text">Con el valor, el tiempo de entrega y una imagen de cómo queda.</span></li>
+        <li class="step"><span class="step__num">03</span><span class="step__title">Aprobamos una muestra</span><span class="step__text">Revisas el logo y los colores antes de producir todo.</span></li>
+        <li class="step"><span class="step__num">04</span><span class="step__title">Fabricamos y entregamos</span><span class="step__text">Revisamos, empacamos y despachamos a donde nos digas.</span></li>
+      </ol>
+    </section>
+
+    <section class="container request" id="propuesta" aria-labelledby="t-propuesta">
+      <div class="request__intro">
+        <h2 id="t-propuesta">Pide tu propuesta</h2>
+        <p class="lead">Cuéntanos lo básico y te respondemos por WhatsApp.</p>
+        <div class="conditions">
+          <strong>Tu logo</strong>
+          <span>Cuando se abra WhatsApp, adjunta tu logo en el chat. Sirve PNG, SVG o PDF.</span>
+        </div>
+      </div>
+
+      <form class="quote-form" id="form-empresa" action="#" method="post">
+        <div class="field">
+          <label for="e-empresa">Empresa</label>
+          <input id="e-empresa" name="empresa" type="text" autocomplete="organization" required>
+        </div>
+        <div class="field">
+          <label for="e-contacto">Nombre de contacto</label>
+          <input id="e-contacto" name="contacto" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="e-wa">WhatsApp</label>
+          <input id="e-wa" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" placeholder="300 000 0000" required>
+        </div>
+        <div class="field">
+          <label for="e-correo">Correo</label>
+          <input id="e-correo" name="correo" type="email" autocomplete="email" required>
+        </div>
+        <div class="field field--wide">
+          <label for="e-producto">Producto de interés</label>
+          <select id="e-producto" name="producto" required>
+            <option value="" selected disabled>Elige una opción</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="e-cantidad">Cantidad</label>
+          <input id="e-cantidad" name="cantidad" type="number" min="1" inputmode="numeric" required>
+        </div>
+        <div class="field">
+          <label for="e-fecha">¿Para cuándo lo necesitas?</label>
+          <input id="e-fecha" name="fecha" type="date">
+        </div>
+        <div class="field field--wide">
+          <label for="e-detalle">Detalles (opcional)</label>
+          <textarea id="e-detalle" name="detalle" rows="3" placeholder="Ej.: colores de la marca, si es un regalo, dónde se entrega"></textarea>
+        </div>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="datos" required> Acepto el tratamiento de mis datos personales.</label>
+        </div>
+        <button class="btn btn--primary btn--lg btn--block" type="submit">Pedir propuesta</button>
+        <p class="form-status" id="form-empresa-estado" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="ito3d-horizontal-fondo-oscuro.svg" alt="ITO 3D" width="124" height="40">
+          <p>Hilo a hilo. Objetos impresos en 3D, hechos en Colombia.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Tienda</h2>
+          <a href="tienda.html?categoria=casa">Casa</a>
+          <a href="tienda.html?categoria=floreros">Floreros</a>
+          <a href="tienda.html?categoria=gaming">Gaming</a>
+          <a href="tienda.html?categoria=tech">Tech</a>
+        </div>
+        <div class="footer-col">
+          <h2>ITO 3D</h2>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="empresas.html">Empresas</a>
+          <a href="cotiza.html">Cotiza tu diseño</a>
+        </div>
+        <div class="footer-col">
+          <h2>Ayuda</h2>
+          <a href="#">Preguntas frecuentes</a>
+          <a href="#">Envíos</a>
+          <a href="#">Cambios y retracto</a>
+          <a href="#">Términos</a>
+          <a href="#">Datos personales</a>
+          <a href="https://checkout.wompi.co/l/VPOS_indO9a" target="_blank" rel="noopener">Pagar con Wompi</a>
+        </div>
+        <div class="footer-col">
+          <h2>Contacto</h2>
+          <span>WhatsApp [NÚMERO]</span>
+          <span>hola@[DOMINIO]</span>
+          <span>Bogotá, Colombia</span>
+          <span>Pagos: tarjeta, PSE y Nequi</span>
+        </div>
+      </div>
+      <p class="footer-legal">© 2026 ITO 3D · [RUT / NIT]</p>
+    </div>
+  </footer>
+
+
+  <dialog class="modal modal--drawer" id="carrito-panel" aria-labelledby="carrito-titulo">
+    <div class="modal__box cart">
+      <div class="modal__head">
+        <h2 id="carrito-titulo">Tu carrito</h2>
+        <button class="icon-btn" type="button" data-cerrar aria-label="Cerrar carrito"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="cart__empty" id="carrito-vacio">
+        <p>Tu carrito está vacío.</p>
+        <a class="btn btn--outline" href="tienda.html">Ver la tienda</a>
+      </div>
+      <ul class="cart__list" id="carrito-lista"></ul>
+      <div class="cart__foot" id="carrito-pie" hidden>
+        <div class="cart__total"><span>Total</span><strong id="carrito-total"></strong></div>
+        <p class="cart__note" id="carrito-nota"></p>
+        <a class="btn btn--primary btn--lg btn--block" href="https://checkout.wompi.co/l/VPOS_indO9a" target="_blank" rel="noopener">Pagar con Wompi</a>
+        <a class="btn btn--outline btn--lg btn--block" href="#" id="carrito-wa" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        <button class="link-btn" type="button" id="carrito-vaciar">Vaciar carrito</button>
+      </div>
+    </div>
+  </dialog>
+
+  <p class="sr-only" id="aviso-global" role="status" aria-live="polite"></p>
+
+  <a class="wa-float" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D." aria-label="Escribir por WhatsApp">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+</body>
+</html>

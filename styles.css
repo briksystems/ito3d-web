@@ -2303,3 +2303,40 @@ html:has(dialog[open]) {
     gap: 16px;
   }
 }
+
+/* ==========================================================================
+   13. EMPRESAS Y NOSOTROS
+   ========================================================================== */
+.block { padding-block: 40px; }
+.block > h2, .band .container > h2 { font-size: 26px; line-height: 1.15; margin-bottom: 20px; }
+.page-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.steps--cards { grid-template-columns: 1fr; }
+
+.split { display: grid; gap: 24px; align-items: center; }
+.split__copy { display: flex; flex-direction: column; gap: 14px; }
+.split__copy h2 { font-size: 26px; line-height: 1.15; }
+.split__media { min-height: 260px; border-radius: 20px; }
+.split .about__kanji { align-self: flex-start; }
+
+.table-wrap { overflow-x: auto; }
+.vol-table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+.vol-table th, .vol-table td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--line); }
+.vol-table thead th { font-size: 13px; font-weight: 700; color: var(--muted); border-bottom: 2px solid var(--ink); }
+.vol-table tbody th { font-weight: 800; }
+.note { margin-top: 16px; font-size: 14px; color: var(--muted); }
+
+.photo-row { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.photo-row .ph { min-height: 200px; border-radius: 16px; }
+
+@media (min-width: 768px) {
+  .block { padding-block: 64px; }
+  .block > h2, .band .container > h2 { font-size: 34px; }
+  .steps--cards { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .split { grid-template-columns: 1fr 1fr; gap: 56px; }
+  .split__media { min-height: 380px; }
+  .photo-row { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .photo-row .ph { min-height: 280px; }
+}
+@media (min-width: 1100px) {
+  .steps--cards { grid-template-columns: repeat(4, 1fr); }
+}

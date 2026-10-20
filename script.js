@@ -853,6 +853,52 @@
     });
   }
 
+  /* 8. Formulario Empresas ---------------------------------------------- */
+
+  function setupEmpresaForm() {
+    var form = document.getElementById("form-empresa");
+    if (!form) return;
+    var estado = document.getElementById("form-empresa-estado");
+    var select = document.getElementById("e-producto");
+    var cat = window.ITO_CATALOGO;
+
+    if (cat && select) {
+      cat.productos.forEach(function (p) {
+        var o = crear("option", "", p.nombre);
+        o.value = p.nombre;
+        select.appendChild(o);
+      });
+      ["Otro producto", "Aún no lo sé, necesito asesoría"].forEach(function (t) {
+        var o = crear("option", "", t);
+        o.value = t;
+        select.appendChild(o);
+      });
+    }
+
+    function valor(n) { var c = form.elements[n]; return c ? String(c.value).trim() : ""; }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      var l = ["Hola, quiero una propuesta para mi empresa."];
+      l.push("Empresa: " + valor("empresa"));
+      l.push("Contacto: " + valor("contacto"));
+      l.push("WhatsApp: " + valor("whatsapp"));
+      l.push("Correo: " + valor("correo"));
+      l.push("Producto: " + valor("producto"));
+      l.push("Cantidad: " + valor("cantidad"));
+      if (valor("fecha")) l.push("Para cuándo: " + valor("fecha"));
+      if (valor("detalle")) l.push("Detalles: " + valor("detalle"));
+      l.push("Adjunto el logo en este chat.");
+      var url = waLink(l.join("\n"));
+      window.open(url, "_blank", "noopener");
+      estado.textContent = "Se abrió WhatsApp con tu solicitud. Adjunta tu logo y envíala. ¿No se abrió? ";
+      var a = crear("a", "", "Toca aquí para abrir WhatsApp");
+      a.href = url; a.target = "_blank"; a.rel = "noopener";
+      estado.appendChild(a);
+    });
+  }
+
   /* Inicio -------------------------------------------------------------- */
 
   setupWhatsAppLinks();
@@ -863,4 +909,5 @@
   setupPrecios();
   setupProduct();
   setupQuoteForm();
+  setupEmpresaForm();
 })();
