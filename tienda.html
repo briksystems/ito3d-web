@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tienda · ITO 3D</title>
+  <meta name="description" content="Todos los objetos de ITO 3D: casa, floreros, gaming y tech. Filtra por precio, tamaño, material y color.">
+  <meta name="theme-color" content="#F6F3EE">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="catalogo.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="header-row">
+      <button class="icon-btn menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="logo" href="index.html">
+        <img src="ito3d-horizontal-color.svg" alt="ITO 3D, ir al inicio" width="124" height="40">
+      </a>
+      <div class="header-actions">
+        <a class="icon-btn" href="tienda.html?buscar=1" aria-label="Buscar en la tienda"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>
+        <button class="icon-btn cart-btn" type="button" aria-label="Abrir carrito" data-abrir-carrito><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="cart-count" hidden>0</span></button>
+        <a class="btn btn--wa" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D.">WhatsApp</a>
+      </div>
+      <nav class="main-nav" id="menu-principal" aria-label="Principal">
+        <!-- Empresas y Nosotros aún no tienen página: pendiente en la maqueta -->
+        <a href="index.html">Inicio</a>
+        <a href="tienda.html" aria-current="page">Tienda</a>
+        <a href="cotiza.html">Cotiza tu diseño</a>
+        <a href="#">Empresas</a>
+        <a href="#">Nosotros</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <section class="container shop-hero">
+      <nav class="breadcrumb" aria-label="Ruta">
+        <a href="index.html">Inicio</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Tienda</span>
+      </nav>
+      <h1 id="catalogo-titulo">Tienda</h1>
+      <p class="lead" id="catalogo-frase">Todo lo que fabricamos, hecho a pedido.</p>
+      <div class="chips" id="catalogo-chips" role="group" aria-label="Categorías"></div>
+    </section>
+
+    <section class="container shop" aria-label="Productos">
+      <div class="shop__tools">
+        <div class="field shop__search">
+          <label for="catalogo-buscar" class="sr-only">Buscar productos</label>
+          <input id="catalogo-buscar" type="search" placeholder="Buscar: bandeja, florero, soporte…" autocomplete="off">
+        </div>
+        <button class="btn btn--outline btn--sm shop__filters-btn" type="button" id="catalogo-filtros-btn" aria-expanded="false" aria-controls="catalogo-filtros">
+          Filtros <span class="shop__filters-n" id="filtros-n" hidden></span>
+        </button>
+        <div class="field shop__sort">
+          <label for="catalogo-orden">Ordenar por</label>
+          <select id="catalogo-orden">
+            <option value="destacados">Destacados</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+            <option value="nuevos">Más nuevos</option>
+            <option value="nombre">Nombre, de la A a la Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="shop__body">
+        <aside class="filters" id="catalogo-filtros" aria-label="Filtros"></aside>
+        <div class="results" id="catalogo-resultados">
+          <p class="results__count" id="catalogo-conteo" role="status" aria-live="polite"></p>
+          <div class="catalog-grid" id="catalogo-lista"></div>
+          <div class="results__empty" id="catalogo-vacio" hidden>
+            <p>No hay productos con esos filtros.</p>
+            <button class="btn btn--outline btn--sm" type="button" id="catalogo-vacio-limpiar">Quitar filtros</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="ito3d-horizontal-fondo-oscuro.svg" alt="ITO 3D" width="124" height="40">
+          <p>Hilo a hilo. Objetos impresos en 3D, hechos en Colombia.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Tienda</h2>
+          <a href="tienda.html?categoria=casa">Casa</a>
+          <a href="tienda.html?categoria=floreros">Floreros</a>
+          <a href="tienda.html?categoria=gaming">Gaming</a>
+          <a href="tienda.html?categoria=tech">Tech</a>
+        </div>
+        <div class="footer-col">
+          <h2>Ayuda</h2>
+          <a href="#">Preguntas frecuentes</a>
+          <a href="#">Envíos</a>
+          <a href="#">Cambios y retracto</a>
+          <a href="#">Términos</a>
+          <a href="#">Datos personales</a>
+          <a href="https://checkout.wompi.co/l/VPOS_indO9a" target="_blank" rel="noopener">Pagar con Wompi</a>
+        </div>
+        <div class="footer-col">
+          <h2>Contacto</h2>
+          <span>WhatsApp [NÚMERO]</span>
+          <span>hola@[DOMINIO]</span>
+          <span>Bogotá, Colombia</span>
+          <span>Pagos: tarjeta, PSE y Nequi</span>
+        </div>
+      </div>
+      <p class="footer-legal">© 2026 ITO 3D · [RUT / NIT]</p>
+    </div>
+  </footer>
+
+
+  <dialog class="modal modal--drawer" id="carrito-panel" aria-labelledby="carrito-titulo">
+    <div class="modal__box cart">
+      <div class="modal__head">
+        <h2 id="carrito-titulo">Tu carrito</h2>
+        <button class="icon-btn" type="button" data-cerrar aria-label="Cerrar carrito"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="cart__empty" id="carrito-vacio">
+        <p>Tu carrito está vacío.</p>
+        <a class="btn btn--outline" href="tienda.html">Ver la tienda</a>
+      </div>
+      <ul class="cart__list" id="carrito-lista"></ul>
+      <div class="cart__foot" id="carrito-pie" hidden>
+        <div class="cart__total"><span>Total</span><strong id="carrito-total"></strong></div>
+        <p class="cart__note" id="carrito-nota"></p>
+        <a class="btn btn--primary btn--lg btn--block" href="https://checkout.wompi.co/l/VPOS_indO9a" target="_blank" rel="noopener">Pagar con Wompi</a>
+        <a class="btn btn--outline btn--lg btn--block" href="#" id="carrito-wa" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        <button class="link-btn" type="button" id="carrito-vaciar">Vaciar carrito</button>
+      </div>
+    </div>
+  </dialog>
+
+  <p class="sr-only" id="aviso-global" role="status" aria-live="polite"></p>
+
+  <a class="wa-float" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D." aria-label="Escribir por WhatsApp">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+</body>
+</html>

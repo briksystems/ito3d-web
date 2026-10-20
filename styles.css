@@ -2057,46 +2057,34 @@ html:has(dialog[open]) {
   max-width: none;
 }
 
-/* 12. TIENDA: VENTANA GRANDE CON FILTROS ---------------------------------- */
+/* 12. TIENDA (PÁGINA PROPIA CON FILTROS) ---------------------------------- */
 
-.modal--shop {
-  width: 100%;
-  max-width: none;
-  height: 100dvh;
-  max-height: none;
-  border-radius: 0;
+.shop-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-block: 20px 8px;
+}
+
+.shop-hero h1 {
+  font-size: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.shop-hero .lead {
+  max-width: 640px;
+}
+
+.shop-hero .chips {
+  margin-top: 8px;
 }
 
 .shop {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  gap: 12px;
-  min-height: 0;
-  padding: 16px 16px 0;
-}
-
-.shop__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.shop__head h2 {
-  font-size: 28px;
-  letter-spacing: -0.01em;
-}
-
-.shop__head .icon-btn {
-  flex: none;
-  border: 1px solid #d6cec1;
-}
-
-.shop__frase {
-  margin-top: 2px;
-  font-size: 15px;
-  color: var(--muted);
+  gap: 16px;
+  padding-block: 8px 64px;
 }
 
 .shop__tools {
@@ -2138,11 +2126,6 @@ html:has(dialog[open]) {
 
 .shop__body {
   display: block;
-  flex: 1;
-  min-height: 0;
-  margin-inline: -16px;
-  padding-inline: 16px;
-  overflow-y: auto;
 }
 
 /* Filtros en el celular: panel que se abre sobre los resultados */
@@ -2208,7 +2191,6 @@ html:has(dialog[open]) {
 
 .results {
   min-width: 0;
-  padding-bottom: 24px;
 }
 
 .results__count {
@@ -2268,23 +2250,14 @@ html:has(dialog[open]) {
 }
 
 @media (min-width: 768px) {
-  .modal--shop {
-    width: min(1240px, calc(100% - 32px));
-    height: calc(100dvh - 32px);
-    border-radius: var(--radius-l);
+  .shop-hero {
+    gap: 14px;
+    padding-block: 40px 12px;
   }
 
   .shop {
-    gap: 16px;
-    padding: 28px 32px 0;
-  }
-
-  .shop__head h2 {
-    font-size: 40px;
-  }
-
-  .shop__frase {
-    font-size: 16px;
+    gap: 20px;
+    padding-bottom: 96px;
   }
 
   .shop__tools {
@@ -2303,15 +2276,17 @@ html:has(dialog[open]) {
   .shop__body {
     display: grid;
     grid-template-columns: 250px minmax(0, 1fr);
-    gap: 32px;
-    margin-inline: -32px;
-    padding: 4px 32px 0;
-    overflow: hidden;
+    gap: 40px;
+    align-items: start;
   }
 
+  /* Los filtros acompañan al bajar por la lista */
   .filters {
+    position: sticky;
+    top: 100px;
     display: flex;
     gap: 22px;
+    max-height: calc(100dvh - 120px);
     margin: 0;
     padding: 0 8px 24px 0;
     border-radius: 0;
@@ -2323,18 +2298,8 @@ html:has(dialog[open]) {
     display: none;
   }
 
-  .results {
-    padding-right: 4px;
-    overflow-y: auto;
-  }
-
   .catalog-grid {
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  }
-}
-
-@media (min-width: 1100px) {
-  .catalog-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
   }
 }

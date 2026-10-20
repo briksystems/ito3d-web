@@ -1,7 +1,7 @@
 /* ==========================================================================
    ITO 3D · Comportamiento de todas las páginas
    Cada bloque revisa si su elemento existe, así el mismo archivo sirve
-   para index.html, producto.html y cotiza.html.
+   para index.html, tienda.html, producto.html y cotiza.html.
    Los productos salen de catalogo.js.
    ========================================================================== */
 
@@ -64,7 +64,7 @@
     if (zona) zona.textContent = texto;
   }
 
-  /* 1. Ventanas (catálogo y carrito) ----------------------------------- */
+  /* 1. Ventana del carrito ---------------------------------------------- */
 
   function abrirVentana(dialogo) {
     if (!dialogo || dialogo.open) return;
@@ -95,21 +95,6 @@
       if (cerrar) {
         var d = cerrar.closest("dialog");
         if (d) d.close();
-        return;
-      }
-
-      var cat = e.target.closest("[data-catalogo]");
-      if (cat) {
-        e.preventDefault();
-        cerrarVentanas();
-        abrirCatalogo(cat.getAttribute("data-catalogo"));
-        return;
-      }
-
-      if (e.target.closest("[data-buscar]")) {
-        e.preventDefault();
-        cerrarVentanas();
-        abrirCatalogo("todo", true);
         return;
       }
 
@@ -321,6 +306,7 @@
 
     var cat = categoriaPorId(tienda.categoria);
     document.getElementById("catalogo-titulo").textContent = cat ? cat.nombre : "Tienda";
+    document.title = (cat ? cat.nombre + " · Tienda" : "Tienda") + " · ITO 3D";
     document.getElementById("catalogo-frase").textContent = cat ? cat.frase : "Todo lo que fabricamos, hecho a pedido.";
 
     // Botones de categoría
@@ -334,9 +320,8 @@
       if (activo) b.classList.add("is-active");
       b.addEventListener("click", function () {
         tienda.categoria = c.id;
+        guardarCategoriaEnDireccion();
         dibujarTienda();
-        var res = document.getElementById("catalogo-resultados");
-        if (res) res.scrollTop = 0;
       });
       chips.appendChild(b);
     });
@@ -363,43 +348,41 @@
     if (limpiar) limpiar.hidden = activos === 0 && tienda.f.texto === "";
   }
 
-  function abrirCatalogo(categoria, enfocarBusqueda) {
-    var dialogo = document.getElementById("catalogo");
-    if (!dialogo) return;
+  /* La categoría elegida queda en la dirección: tienda.html?categoria=casa */
+  function guardarCategoriaEnDireccion() {
+    try {
+      var url = new URL(window.location.href);
+      if (tienda.categoria === "todo") url.searchParams.delete("categoria");
+      else url.searchParams.set("categoria", tienda.categoria);
+      url.searchParams.delete("buscar");
+      window.history.replaceState(null, "", url.pathname + url.search);
+    } catch (err) {
+      /* sin historial: la página funciona igual */
+    }
+  }
 
-    tienda.categoria = categoriaPorId(categoria) ? categoria : "todo";
-    tienda.f = filtrosVacios();
-    tienda.orden = "destacados";
+  function setupTienda() {
+    var lista = document.getElementById("catalogo-lista");
+    if (!lista) return;
+
+    var params = new URLSearchParams(window.location.search);
+    var pedida = params.get("categoria");
+    tienda.categoria = categoriaPorId(pedida) ? pedida : "todo";
 
     var buscar = document.getElementById("catalogo-buscar");
     var orden = document.getElementById("catalogo-orden");
     var panel = document.getElementById("catalogo-filtros");
     var boton = document.getElementById("catalogo-filtros-btn");
-    if (buscar) buscar.value = "";
-    if (orden) orden.value = "destacados";
-    if (panel) panel.classList.remove("is-open");
-    if (boton) boton.setAttribute("aria-expanded", "false");
 
     construirFiltros();
     dibujarTienda();
-    abrirVentana(dialogo);
-    var res = document.getElementById("catalogo-resultados");
-    if (res) res.scrollTop = 0;
-    if (enfocarBusqueda && buscar) buscar.focus();
-  }
-
-  function setupCatalogo() {
-    var buscar = document.getElementById("catalogo-buscar");
-    var orden = document.getElementById("catalogo-orden");
-    var panel = document.getElementById("catalogo-filtros");
-    var boton = document.getElementById("catalogo-filtros-btn");
-    if (!panel) return;
 
     if (buscar) {
       buscar.addEventListener("input", function () {
         tienda.f.texto = buscar.value;
         dibujarTienda();
       });
+      if (params.get("buscar")) buscar.focus();
     }
 
     if (orden) {
@@ -427,32 +410,26 @@
       dibujarTienda();
     });
 
+    function quitarFiltros() {
+      tienda.f = filtrosVacios();
+      if (buscar) buscar.value = "";
+      construirFiltros();
+      dibujarTienda();
+    }
+
     panel.addEventListener("click", function (e) {
       if (e.target.closest("#catalogo-limpiar")) {
-        tienda.f = filtrosVacios();
-        if (buscar) buscar.value = "";
-        construirFiltros();
-        dibujarTienda();
+        quitarFiltros();
       } else if (e.target.closest("#catalogo-aplicar")) {
         panel.classList.remove("is-open");
         if (boton) boton.setAttribute("aria-expanded", "false");
         var res = document.getElementById("catalogo-resultados");
-        if (res) res.scrollTop = 0;
+        if (res) res.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     });
 
     var vaciar = document.getElementById("catalogo-vacio-limpiar");
-    if (vaciar) {
-      vaciar.addEventListener("click", function () {
-        tienda.f = filtrosVacios();
-        if (buscar) buscar.value = "";
-        construirFiltros();
-        dibujarTienda();
-      });
-    }
-
-    // Entrar con #tienda abre el catálogo completo
-    if (window.location.hash === "#tienda") abrirCatalogo("todo");
+    if (vaciar) vaciar.addEventListener("click", quitarFiltros);
   }
 
   /* 3. Carrito ---------------------------------------------------------- */
@@ -695,7 +672,7 @@
     var crumb = document.getElementById("crumb-cat");
     if (cat && crumb) {
       crumb.textContent = cat.nombre;
-      crumb.setAttribute("data-catalogo", cat.id);
+      crumb.href = "tienda.html?categoria=" + encodeURIComponent(cat.id);
     }
 
     // Colores
@@ -881,7 +858,7 @@
   setupWhatsAppLinks();
   setupMenu();
   setupVentanas();
-  setupCatalogo();
+  setupTienda();
   setupCarrito();
   setupPrecios();
   setupProduct();

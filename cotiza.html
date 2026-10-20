@@ -25,14 +25,14 @@
         <img src="ito3d-horizontal-color.svg" alt="ITO 3D, ir al inicio" width="124" height="40">
       </a>
       <div class="header-actions">
-        <button class="icon-btn" type="button" aria-label="Buscar en la tienda" data-buscar><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+        <a class="icon-btn" href="tienda.html?buscar=1" aria-label="Buscar en la tienda"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>
         <button class="icon-btn cart-btn" type="button" aria-label="Abrir carrito" data-abrir-carrito><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="cart-count" hidden>0</span></button>
         <a class="btn btn--wa" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D.">WhatsApp</a>
       </div>
       <nav class="main-nav" id="menu-principal" aria-label="Principal">
         <!-- Empresas y Nosotros aún no tienen página: pendiente en la maqueta -->
         <a href="index.html">Inicio</a>
-        <a href="index.html#tienda" data-catalogo="todo">Tienda</a>
+        <a href="tienda.html">Tienda</a>
         <a href="cotiza.html" aria-current="page">Cotiza tu diseño</a>
         <a href="#">Empresas</a>
         <a href="#">Nosotros</a>
@@ -189,10 +189,10 @@
         </div>
         <div class="footer-col">
           <h2>Tienda</h2>
-          <a href="index.html#tienda" data-catalogo="casa">Casa</a>
-          <a href="index.html#tienda" data-catalogo="floreros">Floreros</a>
-          <a href="index.html#tienda" data-catalogo="gaming">Gaming</a>
-          <a href="index.html#tienda" data-catalogo="tech">Tech</a>
+          <a href="tienda.html?categoria=casa">Casa</a>
+          <a href="tienda.html?categoria=floreros">Floreros</a>
+          <a href="tienda.html?categoria=gaming">Gaming</a>
+          <a href="tienda.html?categoria=tech">Tech</a>
         </div>
         <div class="footer-col">
           <h2>Ayuda</h2>
@@ -216,52 +216,6 @@
   </footer>
 
 
-  <dialog class="modal modal--shop" id="catalogo" aria-labelledby="catalogo-titulo">
-    <div class="shop">
-      <div class="shop__head">
-        <div>
-          <h2 id="catalogo-titulo">Tienda</h2>
-          <p class="shop__frase" id="catalogo-frase"></p>
-        </div>
-        <button class="icon-btn" type="button" data-cerrar aria-label="Cerrar tienda"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-      </div>
-
-      <div class="chips" id="catalogo-chips" role="group" aria-label="Categorías"></div>
-
-      <div class="shop__tools">
-        <div class="field shop__search">
-          <label for="catalogo-buscar" class="sr-only">Buscar productos</label>
-          <input id="catalogo-buscar" type="search" placeholder="Buscar: bandeja, florero, soporte…" autocomplete="off">
-        </div>
-        <button class="btn btn--outline btn--sm shop__filters-btn" type="button" id="catalogo-filtros-btn" aria-expanded="false" aria-controls="catalogo-filtros">
-          Filtros <span class="shop__filters-n" id="filtros-n" hidden></span>
-        </button>
-        <div class="field shop__sort">
-          <label for="catalogo-orden">Ordenar por</label>
-          <select id="catalogo-orden">
-            <option value="destacados">Destacados</option>
-            <option value="precio-asc">Precio: menor a mayor</option>
-            <option value="precio-desc">Precio: mayor a menor</option>
-            <option value="nuevos">Más nuevos</option>
-            <option value="nombre">Nombre, de la A a la Z</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="shop__body">
-        <aside class="filters" id="catalogo-filtros" aria-label="Filtros"></aside>
-        <div class="results" id="catalogo-resultados">
-          <p class="results__count" id="catalogo-conteo" role="status" aria-live="polite"></p>
-          <div class="catalog-grid" id="catalogo-lista"></div>
-          <div class="results__empty" id="catalogo-vacio" hidden>
-            <p>No hay productos con esos filtros.</p>
-            <button class="btn btn--outline btn--sm" type="button" id="catalogo-vacio-limpiar">Quitar filtros</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
   <dialog class="modal modal--drawer" id="carrito-panel" aria-labelledby="carrito-titulo">
     <div class="modal__box cart">
       <div class="modal__head">
@@ -270,7 +224,7 @@
       </div>
       <div class="cart__empty" id="carrito-vacio">
         <p>Tu carrito está vacío.</p>
-        <button class="btn btn--outline" type="button" data-catalogo="todo">Ver la tienda</button>
+        <a class="btn btn--outline" href="tienda.html">Ver la tienda</a>
       </div>
       <ul class="cart__list" id="carrito-lista"></ul>
       <div class="cart__foot" id="carrito-pie" hidden>
