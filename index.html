@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ITO 3D · Objetos que ordenan tu espacio</title>
+  <meta name="description" content="Bandejas, floreros, soportes y organizadores impresos en 3D, diseñados por ITO 3D y fabricados a pedido en Colombia.">
+  <meta name="theme-color" content="#F6F3EE">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="header-row">
+      <button class="icon-btn menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="logo" href="index.html">
+        <img src="ito3d-horizontal-color.svg" alt="ITO 3D, ir al inicio" width="124" height="40">
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn" type="button" aria-label="Buscar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+        <button class="icon-btn" type="button" aria-label="Carrito"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button>
+        <a class="btn btn--wa" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D.">WhatsApp</a>
+      </div>
+      <nav class="main-nav" id="menu-principal" aria-label="Principal">
+        <!-- Tienda, Empresas y Nosotros aún no tienen página: pendiente en la maqueta -->
+        <a href="#">Tienda</a>
+        <a href="cotiza.html">Cotiza tu diseño</a>
+        <a href="#">Empresas</a>
+        <a href="#">Nosotros</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <section class="container hero">
+      <div class="hero__copy">
+        <p class="eyebrow">Hilo a hilo · Hecho en Colombia</p>
+        <h1>Objetos que ordenan tu espacio. Hechos capa a capa.</h1>
+        <p class="lead">Bandejas, floreros, soportes y organizadores diseñados por ITO 3D y fabricados a pedido para tu casa y tu escritorio.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#">Ver tienda</a>
+          <a class="btn btn--outline" href="cotiza.html">Cotiza tu diseño</a>
+        </div>
+      </div>
+      <!-- FOTO PENDIENTE: portada. Reemplazar el bloque .ph por <img> con alt descriptivo -->
+      <div class="hero__media">
+        <div class="ph">Foto principal: florero con flores sobre una mesa, luz de ventana</div>
+        <svg class="hero__thread" viewBox="0 0 520 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M-20 400 C 120 330, 180 470, 300 380 S 460 260, 560 320" fill="none" stroke="#C8402A" stroke-width="3" stroke-linecap="round" opacity="0.55"/></svg>
+      </div>
+    </section>
+
+    <section class="container section" aria-labelledby="t-categorias">
+      <div class="section__head">
+        <h2 id="t-categorias">Explora por categoría</h2>
+        <a href="#">Ver toda la tienda</a>
+      </div>
+      <div class="category-grid">
+          <a class="category-card" href="#">
+            <div class="ph ph--casa">Foto: bandeja con llaves</div>
+            <span class="category-card__name">Casa</span>
+            <span class="category-card__text">Bandejas, posavasos y organizadores</span>
+          </a>
+          <a class="category-card" href="#">
+            <div class="ph ph--floreros">Foto: florero con flores</div>
+            <span class="category-card__name">Floreros</span>
+            <span class="category-card__text">Piezas decorativas, capa a capa</span>
+          </a>
+          <a class="category-card" href="#">
+            <div class="ph ph--gaming">Foto: control en su soporte</div>
+            <span class="category-card__name">Gaming</span>
+            <span class="category-card__text">Soportes para audífonos y controles</span>
+          </a>
+          <a class="category-card" href="#">
+            <div class="ph ph--tech">Foto: escritorio con cables ordenados</div>
+            <span class="category-card__name">Tech</span>
+            <span class="category-card__text">Cables, celular y portátil en orden</span>
+          </a>
+      </div>
+    </section>
+
+    <section class="band section" aria-labelledby="t-favoritos">
+      <div class="container">
+        <div class="section__head">
+          <h2 id="t-favoritos">Los favoritos</h2>
+          <a href="#">Ver más</a>
+        </div>
+        <div class="product-grid">
+          <a class="product-card" href="producto.html">
+            <div class="ph ph--casa">Foto del producto</div>
+            <span class="product-card__name">Bandeja organizadora</span>
+            <div class="product-card__row">
+              <span>[PRECIO]</span>
+              <span class="dots" aria-label="Colores disponibles"><span class="dot dot--carbon"></span><span class="dot dot--hueso"></span><span class="dot dot--bermellon"></span></span>
+            </div>
+          </a>
+          <a class="product-card" href="producto.html">
+            <div class="ph ph--floreros">Foto del producto</div>
+            <span class="product-card__name">Florero espiral alto</span>
+            <div class="product-card__row">
+              <span>[PRECIO]</span>
+              <span class="dots" aria-label="Colores disponibles"><span class="dot dot--hueso"></span><span class="dot dot--arena"></span></span>
+            </div>
+          </a>
+          <a class="product-card" href="producto.html">
+            <div class="ph ph--gaming">Foto del producto</div>
+            <span class="product-card__name">Soporte para audífonos</span>
+            <div class="product-card__row">
+              <span>[PRECIO]</span>
+              <span class="dots" aria-label="Colores disponibles"><span class="dot dot--carbon"></span><span class="dot dot--hueso"></span></span>
+            </div>
+          </a>
+          <a class="product-card" href="producto.html">
+            <div class="ph ph--tech">Foto del producto</div>
+            <span class="product-card__name">Caja para cables</span>
+            <div class="product-card__row">
+              <span>[PRECIO]</span>
+              <span class="dots" aria-label="Colores disponibles"><span class="dot dot--carbon"></span><span class="dot dot--gris"></span></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-dark on-dark" aria-labelledby="t-floreros">
+      <div class="container feature-dark__inner">
+        <!-- VIDEO PENDIENTE: timelapse del florero creciendo capa a capa -->
+        <div class="ph">Video: el florero creciendo capa a capa (timelapse)</div>
+        <div class="feature-dark__copy">
+          <p class="eyebrow">Línea Floreros</p>
+          <h2 id="t-floreros">Horas de hilo en una sola pieza.</h2>
+          <p>Cada florero se imprime en una sola línea continua que sube en espiral. Se fabrica a pedido, en tiradas cortas.</p>
+          <a class="btn btn--light" href="#">Ver floreros</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container about" aria-labelledby="t-ito">
+      <div class="about__intro">
+        <span class="about__kanji" lang="ja" aria-hidden="true">糸</span>
+        <h2 id="t-ito">Ito significa hilo.</h2>
+        <p class="lead">En japonés, ito es hilo. Nuestros objetos nacen de un hilo de material que, capa sobre capa, se convierte en algo útil.</p>
+      </div>
+      <ol class="steps">
+        <li class="step"><span class="step__num">01</span><span class="step__title">Diseño</span><span class="step__text">Cada pieza se diseña en ITO 3D para un uso concreto.</span></li>
+        <li class="step"><span class="step__num">02</span><span class="step__title">Capa a capa</span><span class="step__text">Se imprime a pedido en nuestro taller en Bogotá.</span></li>
+        <li class="step"><span class="step__num">03</span><span class="step__title">Acabado y envío</span><span class="step__text">Se revisa, se empaca y se despacha a todo el país.</span></li>
+      </ol>
+    </section>
+
+    <section class="container cta-wrap" aria-labelledby="t-cotiza">
+      <div class="cta-band cta-band--accent">
+        <div class="cta-band__copy">
+          <h2 id="t-cotiza">¿Viste una pieza en internet? Te la imprimimos.</h2>
+          <p>Envíanos el archivo o el enlace y te cotizamos en menos de 48 horas.</p>
+        </div>
+        <a class="btn btn--light btn--lg" href="cotiza.html">Cotiza tu diseño</a>
+      </div>
+    </section>
+
+    <section class="container cta-wrap cta-wrap--last" aria-labelledby="t-empresas">
+      <div class="cta-band cta-band--sand">
+        <div class="cta-band__copy">
+          <p class="eyebrow eyebrow--muted">Empresas</p>
+          <h2 id="t-empresas">Regalos y artículos con tu logo, por volumen.</h2>
+        </div>
+        <a class="btn btn--outline" href="#">Pedir propuesta</a>
+      </div>
+    </section>
+
+    <section class="container social" aria-labelledby="t-redes">
+      <div class="section__head">
+        <h2 id="t-redes">Síguenos en @ito3d</h2>
+        <div class="social-links"><a href="#">Instagram</a><a href="#">TikTok</a></div>
+      </div>
+      <!-- PENDIENTE: reemplazar por las últimas publicaciones reales -->
+      <div class="social-grid">
+        <div class="ph ph--casa">Reel</div>
+        <div class="ph ph--floreros">Reel</div>
+        <div class="ph ph--gaming">Reel</div>
+        <div class="ph ph--tech">Reel</div>
+        <div class="ph ph--casa">Reel</div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="ito3d-horizontal-fondo-oscuro.svg" alt="ITO 3D" width="124" height="40">
+          <p>Hilo a hilo. Objetos impresos en 3D, hechos en Colombia.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Tienda</h2>
+          <a href="#">Casa</a>
+          <a href="#">Floreros</a>
+          <a href="#">Gaming</a>
+          <a href="#">Tech</a>
+        </div>
+        <div class="footer-col">
+          <h2>Ayuda</h2>
+          <a href="#">Preguntas frecuentes</a>
+          <a href="#">Envíos</a>
+          <a href="#">Cambios y retracto</a>
+          <a href="#">Términos</a>
+          <a href="#">Datos personales</a>
+        </div>
+        <div class="footer-col">
+          <h2>Contacto</h2>
+          <span>WhatsApp [NÚMERO]</span>
+          <span>hola@[DOMINIO]</span>
+          <span>Bogotá, Colombia</span>
+          <span>Pagos: tarjeta, PSE y Nequi</span>
+        </div>
+      </div>
+      <p class="footer-legal">© 2026 ITO 3D · [RUT / NIT]</p>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D." aria-label="Escribir por WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1-1 2 1v1.5c-3.5.5-8-4-7.5-7.5H10l1 2z"/></svg>
+  </a>
+</body>
+</html>

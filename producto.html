@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bandeja organizadora · ITO 3D</title>
+  <meta name="description" content="Bandeja organizadora impresa en 3D para llaves, billetera y audífonos. Diseño original de ITO 3D, fabricada a pedido en Colombia.">
+  <meta name="theme-color" content="#F6F3EE">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="header-row">
+      <button class="icon-btn menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="logo" href="index.html">
+        <img src="ito3d-horizontal-color.svg" alt="ITO 3D, ir al inicio" width="124" height="40">
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn" type="button" aria-label="Buscar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+        <button class="icon-btn" type="button" aria-label="Carrito"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button>
+        <a class="btn btn--wa" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D.">WhatsApp</a>
+      </div>
+      <nav class="main-nav" id="menu-principal" aria-label="Principal">
+        <!-- Tienda, Empresas y Nosotros aún no tienen página: pendiente en la maqueta -->
+        <a href="#">Tienda</a>
+        <a href="cotiza.html">Cotiza tu diseño</a>
+        <a href="#">Empresas</a>
+        <a href="#">Nosotros</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="container page-main">
+    <nav class="breadcrumb" aria-label="Ruta">
+      <a href="index.html">Inicio</a><span aria-hidden="true">/</span>
+      <a href="#">Casa</a><span aria-hidden="true">/</span>
+      <span aria-current="page">Bandeja organizadora</span>
+    </nav>
+
+    <div class="product">
+      <div class="gallery">
+        <!-- FOTOS PENDIENTES: 4 a 6 fotos con fondo liso y un video corto opcional -->
+        <div class="ph gallery__main" id="foto-principal">Foto principal del producto en uso</div>
+        <div class="gallery__thumbs">
+          <button class="thumb is-active" type="button" aria-label="Ver foto 1" aria-pressed="true">1</button>
+          <button class="thumb thumb--2" type="button" aria-label="Ver foto 2" aria-pressed="false">2</button>
+          <button class="thumb thumb--3" type="button" aria-label="Ver foto 3" aria-pressed="false">3</button>
+          <button class="thumb thumb--video" type="button" aria-label="Ver video" aria-pressed="false">Video</button>
+        </div>
+      </div>
+
+      <div class="product__info">
+        <div class="product__head">
+          <h1 id="producto-nombre">Bandeja organizadora</h1>
+          <p class="product__price">[PRECIO]</p>
+          <p class="lead">Un lugar fijo para llaves, billetera y audífonos a la entrada de la casa. [DESCRIPCIÓN CORTA]</p>
+        </div>
+
+        <fieldset class="field-group">
+          <legend>Color: <span id="color-elegido">Carbón</span></legend>
+          <div class="swatches">
+            <label class="swatch">
+              <input type="radio" name="color" value="Carbón" checked>
+              <span class="swatch__dot sw--carbon"></span>
+              <span class="sr-only">Carbón</span>
+            </label>
+            <label class="swatch">
+              <input type="radio" name="color" value="Hueso">
+              <span class="swatch__dot sw--hueso"></span>
+              <span class="sr-only">Hueso</span>
+            </label>
+            <label class="swatch">
+              <input type="radio" name="color" value="Arena">
+              <span class="swatch__dot sw--arena"></span>
+              <span class="sr-only">Arena</span>
+            </label>
+            <label class="swatch">
+              <input type="radio" name="color" value="Bermellón">
+              <span class="swatch__dot sw--bermellon"></span>
+              <span class="sr-only">Bermellón</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="personalizacion">Personalización (opcional, + [VALOR])</label>
+          <input id="personalizacion" name="personalizacion" type="text" maxlength="12" placeholder="Nombre o iniciales, máx. 12 letras">
+        </div>
+
+        <div class="buy-actions">
+          <!-- Versión 2: conectar con el carrito y la pasarela (Wompi o Bold) -->
+          <button class="btn btn--primary btn--lg btn--block" type="button" id="agregar-carrito">Agregar al carrito</button>
+          <a class="btn btn--outline btn--lg btn--block" href="#" id="pedir-wa" data-wa>Pedir por WhatsApp</a>
+          <p class="form-status" id="carrito-estado" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="lead-time">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span>Se fabrica en [X] días hábiles · envío a todo el país</span>
+        </div>
+
+        <dl class="specs">
+          <dt>Medidas</dt><dd>[ANCHO × LARGO × ALTO] cm</dd>
+          <dt>Material</dt><dd>Plástico de origen vegetal, liviano y resistente</dd>
+          <dt>Cuidados</dt><dd>Limpiar con paño húmedo. No dejar al sol directo ni en el carro.</dd>
+          <dt>Diseño</dt><dd>Diseño original de ITO 3D</dd>
+        </dl>
+      </div>
+    </div>
+
+    <section class="related" aria-labelledby="t-combina">
+      <h2 id="t-combina">Combina con</h2>
+      <div class="related-grid">
+          <a class="related-card" href="#">
+            <div class="ph ph--casa">Foto</div>
+            <span class="related-card__name">Posavasos, juego de 4</span>
+            <span>[PRECIO]</span>
+          </a>
+          <a class="related-card" href="#">
+            <div class="ph ph--floreros">Foto</div>
+            <span class="related-card__name">Florero bajo</span>
+            <span>[PRECIO]</span>
+          </a>
+          <a class="related-card" href="#">
+            <div class="ph ph--gaming">Foto</div>
+            <span class="related-card__name">Organizador de cajón</span>
+            <span>[PRECIO]</span>
+          </a>
+          <a class="related-card" href="#">
+            <div class="ph ph--tech">Foto</div>
+            <span class="related-card__name">Enrollador de cables</span>
+            <span>[PRECIO]</span>
+          </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="ito3d-horizontal-fondo-oscuro.svg" alt="ITO 3D" width="124" height="40">
+          <p>Hilo a hilo. Objetos impresos en 3D, hechos en Colombia.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Tienda</h2>
+          <a href="#">Casa</a>
+          <a href="#">Floreros</a>
+          <a href="#">Gaming</a>
+          <a href="#">Tech</a>
+        </div>
+        <div class="footer-col">
+          <h2>Ayuda</h2>
+          <a href="#">Preguntas frecuentes</a>
+          <a href="#">Envíos</a>
+          <a href="#">Cambios y retracto</a>
+          <a href="#">Términos</a>
+          <a href="#">Datos personales</a>
+        </div>
+        <div class="footer-col">
+          <h2>Contacto</h2>
+          <span>WhatsApp [NÚMERO]</span>
+          <span>hola@[DOMINIO]</span>
+          <span>Bogotá, Colombia</span>
+          <span>Pagos: tarjeta, PSE y Nequi</span>
+        </div>
+      </div>
+      <p class="footer-legal">© 2026 ITO 3D · [RUT / NIT]</p>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D." aria-label="Escribir por WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1-1 2 1v1.5c-3.5.5-8-4-7.5-7.5H10l1 2z"/></svg>
+  </a>
+</body>
+</html>

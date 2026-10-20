@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cotiza tu diseño · ITO 3D</title>
+  <meta name="description" content="Envíanos el archivo o el enlace del modelo 3D y te cotizamos la impresión en menos de 48 horas.">
+  <meta name="theme-color" content="#F6F3EE">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="header-row">
+      <button class="icon-btn menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="logo" href="index.html">
+        <img src="ito3d-horizontal-color.svg" alt="ITO 3D, ir al inicio" width="124" height="40">
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn" type="button" aria-label="Buscar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+        <button class="icon-btn" type="button" aria-label="Carrito"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button>
+        <a class="btn btn--wa" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D.">WhatsApp</a>
+      </div>
+      <nav class="main-nav" id="menu-principal" aria-label="Principal">
+        <!-- Tienda, Empresas y Nosotros aún no tienen página: pendiente en la maqueta -->
+        <a href="#">Tienda</a>
+        <a href="cotiza.html" aria-current="page">Cotiza tu diseño</a>
+        <a href="#">Empresas</a>
+        <a href="#">Nosotros</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <section class="container page-hero">
+      <p class="eyebrow">Cotiza tu diseño</p>
+      <h1>¿Viste una pieza en internet? Te la imprimimos.</h1>
+      <p class="lead">No necesitas una impresora 3D. Envíanos el archivo o el enlace del modelo y te cotizamos en menos de 48 horas.</p>
+    </section>
+
+    <section class="container" aria-label="Cómo funciona">
+      <ol class="process">
+        <li class="step"><span class="step__num">01</span><span class="step__title">Envías el archivo</span><span class="step__text">Con el formulario de abajo.</span></li>
+        <li class="step"><span class="step__num">02</span><span class="step__title">Lo revisamos</span><span class="step__text">Archivo, licencia y viabilidad.</span></li>
+        <li class="step"><span class="step__num">03</span><span class="step__title">Te cotizamos</span><span class="step__text">Por WhatsApp, en menos de 48 h.</span></li>
+        <li class="step"><span class="step__num">04</span><span class="step__title">Pagas</span><span class="step__text">Tarjeta, PSE o Nequi.</span></li>
+        <li class="step"><span class="step__num">05</span><span class="step__title">Imprimimos y enviamos</span><span class="step__text">A tu casa o para recoger en Bogotá.</span></li>
+      </ol>
+    </section>
+
+    <section class="band rules" aria-labelledby="t-reglas">
+      <div class="container">
+        <h2 id="t-reglas">Qué imprimimos y qué no</h2>
+        <div class="rules-grid">
+          <div class="rule rule--yes">
+            <h3>Sí imprimimos</h3>
+            <ul><li>Diseños hechos por ti</li><li>Modelos de uso libre (CC0, CC BY, CC BY-SA)</li><li>Piezas Gridfinity</li><li>Modelos con licencia comercial comprada</li></ul>
+          </div>
+          <div class="rule rule--maybe">
+            <h3>Revisamos caso a caso</h3>
+            <ul><li>Modelos sin licencia clara</li><li>Modelos comprados con licencia personal</li></ul>
+          </div>
+          <div class="rule rule--no">
+            <h3>No imprimimos</h3>
+            <ul><li>Personajes y marcas registradas</li><li>Modelos con licencia no comercial</li><li>Copias de productos a la venta</li><li>Armas, llaves y piezas de seguridad</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container request" aria-labelledby="t-solicitud">
+      <div class="request__intro">
+        <h2 id="t-solicitud">Envía tu solicitud</h2>
+        <p class="lead">Entre más detalle nos des, más rápido te cotizamos.</p>
+        <div class="conditions">
+          <strong>Condiciones</strong>
+          <span>Pedido mínimo de [VALOR].</span>
+          <span>Se cobra por material y por tiempo de impresión.</span>
+          <span>Dos revisiones del archivo incluidas.</span>
+          <span>Los cambios al modelo se cotizan como diseño.</span>
+          <span>Imprimimos lo que dice el archivo: no garantizamos el resultado de modelos de terceros.</span>
+        </div>
+      </div>
+
+      <!-- PENDIENTE: conectar el envío (correo + hoja de cálculo). Ver README -->
+      <form class="quote-form" id="form-cotiza" action="#" method="post" enctype="multipart/form-data">
+        <div class="field">
+          <label for="q-nombre">Nombre</label>
+          <input id="q-nombre" name="nombre" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="q-wa">WhatsApp</label>
+          <input id="q-wa" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" placeholder="300 000 0000" required>
+        </div>
+        <div class="field field--wide">
+          <label for="q-correo">Correo</label>
+          <input id="q-correo" name="correo" type="email" autocomplete="email" required>
+        </div>
+
+        <div class="dropzone">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/></svg>
+          <label for="q-archivo">Sube tu archivo</label>
+          <span class="hint" id="q-archivo-ayuda">STL, 3MF u OBJ · hasta 50 MB</span>
+          <input id="q-archivo" name="archivo" type="file" accept=".stl,.3mf,.obj" aria-describedby="q-archivo-ayuda">
+        </div>
+        <div class="field field--wide">
+          <label for="q-enlace">O pega el enlace del modelo</label>
+          <input id="q-enlace" name="enlace" type="url" placeholder="MakerWorld, Printables, Thingiverse…">
+        </div>
+
+        <div class="field">
+          <label for="q-origen">¿De dónde sale el archivo?</label>
+          <select id="q-origen" name="origen" required>
+            <option value="" selected disabled>Elige una opción</option>
+            <option>Lo diseñé yo</option>
+            <option>Lo descargué gratis</option>
+            <option>Lo compré</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="q-licencia">Licencia</label>
+          <select id="q-licencia" name="licencia" required>
+            <option value="" selected disabled>Elige una opción</option>
+            <option>No sé</option>
+            <option>CC0</option>
+            <option>CC BY</option>
+            <option>CC BY-SA</option>
+            <option>Comercial comprada</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-cantidad">Cantidad</label>
+          <input id="q-cantidad" name="cantidad" type="number" min="1" value="1" inputmode="numeric" required>
+        </div>
+        <div class="field">
+          <label for="q-fecha">¿Para cuándo la necesitas? (opcional)</label>
+          <input id="q-fecha" name="fecha" type="date">
+        </div>
+
+        <div class="field field--wide">
+          <label for="q-color">Color o material preferido (opcional)</label>
+          <select id="q-color" name="color">
+            <option value="" selected>Sin preferencia</option>
+            <option>Carbón</option>
+            <option>Hueso</option>
+            <option>Arena</option>
+            <option>Bermellón</option>
+          </select>
+        </div>
+
+        <div class="field field--wide">
+          <label for="q-uso">¿Para qué es la pieza?</label>
+          <textarea id="q-uso" name="uso" rows="3" placeholder="Ej.: soporte para la cámara del carro, color negro" required></textarea>
+        </div>
+
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="derechos" required> Confirmo que tengo derecho a usar este archivo.</label>
+          <label class="check"><input type="checkbox" name="condiciones" required> Acepto las condiciones del servicio y el tratamiento de mis datos personales.</label>
+        </div>
+
+        <button class="btn btn--primary btn--lg btn--block" type="submit">Enviar para cotizar</button>
+        <p class="form-status" id="form-estado" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="ito3d-horizontal-fondo-oscuro.svg" alt="ITO 3D" width="124" height="40">
+          <p>Hilo a hilo. Objetos impresos en 3D, hechos en Colombia.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Tienda</h2>
+          <a href="#">Casa</a>
+          <a href="#">Floreros</a>
+          <a href="#">Gaming</a>
+          <a href="#">Tech</a>
+        </div>
+        <div class="footer-col">
+          <h2>Ayuda</h2>
+          <a href="#">Preguntas frecuentes</a>
+          <a href="#">Envíos</a>
+          <a href="#">Cambios y retracto</a>
+          <a href="#">Términos</a>
+          <a href="#">Datos personales</a>
+        </div>
+        <div class="footer-col">
+          <h2>Contacto</h2>
+          <span>WhatsApp [NÚMERO]</span>
+          <span>hola@[DOMINIO]</span>
+          <span>Bogotá, Colombia</span>
+          <span>Pagos: tarjeta, PSE y Nequi</span>
+        </div>
+      </div>
+      <p class="footer-legal">© 2026 ITO 3D · [RUT / NIT]</p>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D." aria-label="Escribir por WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1-1 2 1v1.5c-3.5.5-8-4-7.5-7.5H10l1 2z"/></svg>
+  </a>
+</body>
+</html>
