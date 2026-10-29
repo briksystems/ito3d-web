@@ -16,26 +16,26 @@
 
 :root {
   /* Colores de marca (kit de logo) */
-  --bone: #f6f3ee; /* fondo principal */
-  --ink: #1f1e1c; /* texto */
-  --muted: #5e5a54; /* texto secundario */
-  --sand: #e9e3d8; /* fondos secundarios */
-  --sand-soft: #efeae2; /* bandas de fondo */
-  --line: #e2dbcf; /* divisores */
+  --bone: #ffffff; /* fondo principal: blanco galería */
+  --ink: #141414; /* texto */
+  --muted: #5c5c5a; /* texto secundario */
+  --sand: #f1f1ef; /* fondos secundarios */
+  --sand-soft: #f6f6f4; /* bandas de fondo */
+  --line: #e6e6e3; /* divisores */
   --accent: #c8402a; /* bermellón: botones y detalles */
   --accent-text: #b23a25; /* bermellón más oscuro para texto pequeño */
   --accent-on-dark: #e8836f; /* bermellón para texto sobre carbón */
-  --on-dark: #cfc8bc; /* texto sobre carbón */
-  --dark-soft: #2e2c29;
-  --field-border: #8a8174; /* borde de campos: contraste 3:1 sobre blanco */
+  --on-dark: #c9c9c5; /* texto sobre carbón */
+  --dark-soft: #262626;
+  --field-border: #8a8a86; /* borde de campos: contraste 3:1 sobre blanco */
   --ok: #2f7d57;
   --warn: #c98a12;
 
   /* Tonos de las fotos de relleno, uno por categoría */
-  --ph-casa: #e9e3d8;
-  --ph-floreros: #e3d6cc;
-  --ph-gaming: #ddddd6;
-  --ph-tech: #e6e1d9;
+  --ph-casa: #f1f1ef;
+  --ph-floreros: #efeeec;
+  --ph-gaming: #ecedee;
+  --ph-tech: #eeefef;
 
   --font: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --maxw: 1280px;
@@ -282,7 +282,7 @@ p {
 }
 .dot--hueso {
   --dot: #f2eee6;
-  border: 1px solid #b4aa9b;
+  border: 1px solid #b8b8b4;
 }
 .dot--arena {
   --dot: #b9a68f;
@@ -415,7 +415,7 @@ p {
   border-radius: 50%;
   background: var(--ink);
   color: var(--bone);
-  box-shadow: 0 6px 18px rgba(31, 30, 28, 0.25);
+  box-shadow: 0 6px 18px rgba(20, 20, 20, 0.25);
   transition: transform 0.15s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -475,7 +475,7 @@ p {
 
 .footer-legal {
   padding-block: 20px 96px; /* deja aire para el botón flotante */
-  border-top: 1px solid #3a3833;
+  border-top: 1px solid #333333;
   font-size: 13px;
 }
 
@@ -605,7 +605,7 @@ p {
   height: 280px;
   border-radius: 18px;
   background: var(--dark-soft);
-  color: #bdb5a8;
+  color: #c9c9c5;
 }
 
 .feature-dark .eyebrow {
@@ -894,7 +894,7 @@ p {
   height: 32px;
   border-radius: 50%;
   background: var(--dot);
-  border: 1px solid #b4aa9b;
+  border: 1px solid #b8b8b4;
 }
 
 .swatch input:checked + .swatch__dot {
@@ -1100,7 +1100,7 @@ textarea:user-invalid {
   padding-left: 18px;
   font-size: 15px;
   line-height: 1.5;
-  color: #3f3c37;
+  color: #3d3d3b;
 }
 
 .request {
@@ -1128,7 +1128,7 @@ textarea:user-invalid {
   background: var(--sand-soft);
   font-size: 14px;
   line-height: 1.55;
-  color: #3f3c37;
+  color: #3d3d3b;
 }
 
 .conditions strong {
@@ -1246,7 +1246,7 @@ textarea:user-invalid {
   }
 
   .header-actions .icon-btn {
-    border: 1px solid #d6cec1;
+    border: 1px solid #d9d9d6;
   }
 
   .header-actions .btn--wa {
@@ -1259,7 +1259,7 @@ textarea:user-invalid {
   }
 
   .header-actions .btn--wa:hover {
-    background: #3a3833;
+    background: #333333;
     color: var(--bone);
   }
 
@@ -1720,7 +1720,7 @@ html:has(dialog[open]) {
   border-radius: var(--radius-l);
   background: var(--bone);
   color: var(--ink);
-  box-shadow: 0 24px 60px rgba(31, 30, 28, 0.3);
+  box-shadow: 0 24px 60px rgba(20, 20, 20, 0.3);
   overflow: hidden;
 }
 
@@ -1731,7 +1731,7 @@ html:has(dialog[open]) {
 }
 
 .modal::backdrop {
-  background: rgba(31, 30, 28, 0.55);
+  background: rgba(20, 20, 20, 0.55);
 }
 
 .modal__box {
@@ -1757,7 +1757,7 @@ html:has(dialog[open]) {
 }
 
 .modal__head .icon-btn {
-  border: 1px solid #d6cec1;
+  border: 1px solid #d9d9d6;
 }
 
 .modal__frase {
