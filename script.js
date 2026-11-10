@@ -713,7 +713,7 @@
     var principal = document.getElementById("foto-principal");
     var miniaturas = document.querySelector(".gallery__thumbs");
     if (principal && miniaturas && p.fotos && p.fotos.length) {
-      var etiquetas = ["Producto", /ambiente/.test(p.fotos[1] || "") ? "Ambiente" : "En uso", "Medidas", "Detalle", "En mano"];
+      var etiquetas = ["Producto", /ambiente/.test(p.fotos[1] || "") ? "Ambiente" : "En uso", "Medidas", "Detalle", "En mano", "Cable", "Por dentro"];
       var grande = document.createElement("img");
       grande.alt = p.nombre;
       principal.textContent = "";
