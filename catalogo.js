@@ -410,6 +410,12 @@ window.ITO_CATALOGO = {
       opcionesNombre: "Juego", opciones: ["Marcapuestos x4", "Marcapuestos x8", "Servilleteros x4", "Servilleteros x8", "Marcapuestos + servilleteros x4", "Marcapuestos + servilleteros x8"],
       medidas: [6.2, 2.6, 8.9], material: "estandar", colores: ["Salvia", "Bermellón", "Carbón"],
       personalizable: true, dias: null, creado: "2026-11-10",
-      fotos: ["img/productos/marcapuestos/marcapuestos_1_solo.webp", "img/productos/marcapuestos/marcapuestos_colores.webp", "img/productos/marcapuestos/marcapuestos_2_ambiente.webp", "img/productos/marcapuestos/marcapuestos_3_dimensiones.webp", "img/productos/marcapuestos/marcapuestos_4_detalle.webp", "img/productos/marcapuestos/marcapuestos_5_en-mano.webp"] }
+      fotos: ["img/productos/marcapuestos/marcapuestos_1_solo.webp", "img/productos/marcapuestos/marcapuestos_colores.webp", "img/productos/marcapuestos/marcapuestos_2_ambiente.webp", "img/productos/marcapuestos/marcapuestos_3_dimensiones.webp", "img/productos/marcapuestos/marcapuestos_4_detalle.webp", "img/productos/marcapuestos/marcapuestos_5_en-mano.webp"] },
+    { id: "jabonera", categoria: "casa", nombre: "Jabonera Hilo", precio: null,
+      descripcion: "Jabonera de dos piezas: la rejilla de ranuras onduladas deja escurrir el agua hacia la bandeja, así el jabón se seca y dura más. La rejilla se saca para lavarla. Elige el color de la bandeja y el de la rejilla.",
+      opcionesNombre: "Rejilla", opciones: ["Rejilla arena", "Rejilla hueso", "Rejilla del mismo color"],
+      medidas: [13.2, 8.8, 2], envioKg: 0.3, material: "estandar", colores: ["Carbón", "Salvia", "Bermellón", "Hueso"],
+      personalizable: false, dias: null, creado: "2026-11-10",
+      fotos: ["img/productos/jabonera/jabonera_1_solo.webp", "img/productos/jabonera/jabonera_colores.webp", "img/productos/jabonera/jabonera_2_uso.webp", "img/productos/jabonera/jabonera_3_dimensiones.webp", "img/productos/jabonera/jabonera_4_detalle.webp", "img/productos/jabonera/jabonera_5_en-mano.webp"] }
   ]
 };
