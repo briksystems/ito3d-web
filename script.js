@@ -13,6 +13,13 @@
 
   var CLAVE_CARRITO = "ito3d-carrito";
   var CATALOGO = window.ITO_CATALOGO || { categorias: [], productos: [] };
+  /* Versión de las fotos: al cambiar una foto, sube este número para que los navegadores no muestren la vieja */
+  var VERSION_FOTOS = "20261110b";
+  function conVersion(r) { return r && r.indexOf("?") < 0 ? r + "?v=" + VERSION_FOTOS : r; }
+  CATALOGO.productos.forEach(function (p) {
+    p.fotos = (p.fotos || []).map(conVersion);
+    (p.piezas || []).forEach(function (z) { z.fotos = (z.fotos || []).map(conVersion); });
+  });
   var CLASE_COLOR = { "Carbón": "carbon", "Hueso": "hueso", "Arena": "arena", "Bermellón": "bermellon", "Gris": "gris", "Salvia": "salvia" };
   var PESOS = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 
@@ -776,7 +783,7 @@
       detalle: "Detalle", "en-mano": "En mano", cable: "Cable", "por-dentro": "Por dentro", plato: "Plato", "plato-removible": "Plato removible",
       "en-tablero": "En el tablero", kit: "Kit completo" };
     function etiquetaFoto(r) {
-      var m = r.match(/_(?:\d_)?([a-z-]+)\.webp$/);
+      var m = r.match(/_(?:\d_)?([a-z-]+)\.webp(?:\?.*)?$/);
       return m && NOMBRES_FOTO[m[1]] ? NOMBRES_FOTO[m[1]] : "";
     }
     var iColores = -1;
