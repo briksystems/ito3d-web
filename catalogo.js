@@ -109,7 +109,7 @@ window.ITO_CATALOGO = {
       opcionesNombre: "Pieza", opciones: ["Repisa", "Caja", "Portalápices", "Soporte para audífonos", "Gancho corto", "Gancho largo", "Kit completo (las 6 piezas)"],
       medidas: [16, 7.9, 11], material: "estandar", colores: ["Arena", "Hueso", "Salvia", "Carbón"],
       personalizable: false, dias: null, creado: "2026-11-10",
-      fotos: ["img/productos/accesorios-tablero/accesorios-tablero_1_solo.webp", "img/productos/accesorios-tablero/accesorios-tablero_colores.webp", "img/productos/accesorios-tablero/accesorios-tablero_2_uso.webp", "img/productos/accesorios-tablero/accesorios-tablero_3_dimensiones.webp", "img/productos/accesorios-tablero/accesorios-tablero_4_detalle.webp", "img/productos/accesorios-tablero/accesorios-tablero_5_en-mano.webp"] },
+      fotos: ["img/productos/accesorios-tablero/accesorios-tablero_1_solo.webp", "img/productos/accesorios-tablero/accesorios-tablero_colores.webp", "img/productos/accesorios-tablero/accesorios-tablero_2_uso.webp", "img/productos/accesorios-tablero/accesorios-tablero_3_dimensiones.webp", "img/productos/accesorios-tablero/accesorios-tablero_5_en-mano.webp"] },
     { id: "lampara-hilo", categoria: "casa", nombre: "Lámpara Hilo", precio: null,
       descripcion: "Lámpara de mesa con pantalla acanalada en espiral que deja pasar la luz, sobre base acanalada. Usa bombillo E27.",
       medidas: [15.6, 15.6, 22.5], material: "estandar", colores: ["Carbón", "Bermellón", "Salvia"],
