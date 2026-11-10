@@ -692,6 +692,28 @@
       crumb.href = "tienda.html?categoria=" + encodeURIComponent(cat.id);
     }
 
+    // Opciones (pieza o tamaño), si el producto las tiene
+    var grupoColor = document.getElementById("swatches").closest(".field-group");
+    var previo = document.getElementById("grupo-opcion");
+    if (previo) previo.remove();
+    if (p.opciones && p.opciones.length && grupoColor) {
+      var fs = crear("div", "field-group");
+      fs.id = "grupo-opcion";
+      var lab = crear("label", "", (p.opcionesNombre || "Opción") + ":");
+      lab.setAttribute("for", "opcion");
+      lab.style.fontWeight = "600";
+      var sel = document.createElement("select");
+      sel.id = "opcion";
+      p.opciones.forEach(function (o) {
+        var op = document.createElement("option");
+        op.value = o; op.textContent = o;
+        sel.appendChild(op);
+      });
+      fs.appendChild(lab);
+      fs.appendChild(sel);
+      grupoColor.parentNode.insertBefore(fs, grupoColor);
+    }
+
     // Colores
     var cont = document.getElementById("swatches");
     cont.textContent = "";
@@ -792,7 +814,9 @@
 
     function colorActual() {
       var marcado = document.querySelector('input[name="color"]:checked');
-      return marcado ? marcado.value : "";
+      var color = marcado ? marcado.value : "";
+      var opcion = document.getElementById("opcion");
+      return opcion ? opcion.value + " · " + color : color;
     }
 
     function textoPersonal() {
@@ -801,16 +825,19 @@
 
     function actualizarWhatsApp() {
       var color = colorActual();
-      if (colorLabel) colorLabel.textContent = color;
+      var marcado = document.querySelector('input[name="color"]:checked');
+      if (colorLabel) colorLabel.textContent = marcado ? marcado.value : "";
 
       var texto = "Hola, quiero pedir: " + nombre.textContent.trim();
-      if (color) texto += ", color " + color;
+      if (color) texto += ", " + (document.getElementById("opcion") ? color.replace(" · ", ", color ") : "color " + color);
       if (textoPersonal()) texto += ', personalizado con "' + textoPersonal() + '"';
       texto += ". " + window.location.href;
       if (pedir) pedir.href = waLink(texto);
     }
 
     document.getElementById("swatches").addEventListener("change", actualizarWhatsApp);
+    var selOpcion = document.getElementById("opcion");
+    if (selOpcion) selOpcion.addEventListener("change", actualizarWhatsApp);
     if (personal) personal.addEventListener("input", actualizarWhatsApp);
     actualizarWhatsApp();
 
