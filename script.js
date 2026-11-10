@@ -756,8 +756,10 @@
     // Personalización
     var campo = document.getElementById("campo-personalizacion");
     campo.hidden = !p.personalizable;
-    var extra = p.extraPersonalizacion === null || p.extraPersonalizacion === undefined ? "[VALOR]" : PESOS.format(p.extraPersonalizacion);
-    document.getElementById("etiqueta-personalizacion").textContent = "Personalización (opcional, + " + extra + ")";
+    var sinValor = p.extraPersonalizacion === null || p.extraPersonalizacion === undefined;
+    document.getElementById("etiqueta-personalizacion").textContent = sinValor
+      ? "Personalización: escribe el nombre, texto o logo que quieres"
+      : "Personalización (opcional, + " + PESOS.format(p.extraPersonalizacion) + ")";
 
     // Relacionados: primero los de la misma categoría
     var rel = document.getElementById("relacionados");
