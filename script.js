@@ -13,7 +13,7 @@
 
   var CLAVE_CARRITO = "ito3d-carrito";
   var CATALOGO = window.ITO_CATALOGO || { categorias: [], productos: [] };
-  var CLASE_COLOR = { "Carbón": "carbon", "Hueso": "hueso", "Arena": "arena", "Bermellón": "bermellon", "Gris": "gris" };
+  var CLASE_COLOR = { "Carbón": "carbon", "Hueso": "hueso", "Arena": "arena", "Bermellón": "bermellon", "Gris": "gris", "Salvia": "salvia" };
   var PESOS = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 
   // Marca la página como "con JS" para que el menú del celular arranque cerrado
@@ -33,7 +33,25 @@
   }
 
   function precioTexto(precio) {
-    return precio === null || precio === undefined ? "[PRECIO]" : PESOS.format(precio);
+    return precio === null || precio === undefined ? "Precio a consultar" : PESOS.format(precio);
+  }
+
+  /* Bloque de foto: usa la foto real si el producto la tiene; si no, el relleno de color */
+  function bloqueFoto(p, indice, texto, clase) {
+    var caja = crear("div", "ph ph--" + p.categoria + (clase ? " " + clase : ""));
+    var ruta = p.fotos && p.fotos[indice || 0];
+    if (ruta) {
+      caja.classList.add("ph--foto");
+      var img = document.createElement("img");
+      img.src = ruta;
+      img.alt = p.nombre;
+      img.loading = "lazy";
+      img.decoding = "async";
+      caja.appendChild(img);
+    } else {
+      caja.textContent = texto || "Foto";
+    }
+    return caja;
   }
 
   function productoPorId(id) {
@@ -277,7 +295,7 @@
     var enlace = crear("a", "cat-item__link");
     enlace.href = "producto.html?id=" + encodeURIComponent(p.id);
     var media = crear("div", "cat-item__media");
-    media.appendChild(crear("div", "ph ph--" + p.categoria, "Foto del producto"));
+    media.appendChild(bloqueFoto(p, 0, "Foto del producto"));
     if (p.ejemplo) media.appendChild(crear("span", "badge-ejemplo", "Ejemplo"));
     enlace.appendChild(media);
     enlace.appendChild(crear("h3", "cat-item__name", p.nombre));
@@ -532,8 +550,7 @@
       var p = productoPorId(l.id);
       var li = crear("li", "cart-line");
 
-      var foto = crear("div", "ph ph--" + p.categoria, "Foto");
-      foto.classList.add("cart-line__ph");
+      var foto = bloqueFoto(p, 0, "Foto", "cart-line__ph");
       li.appendChild(foto);
 
       var info = crear("div", "cart-line__info");
@@ -667,7 +684,7 @@
     document.getElementById("spec-material").textContent = mat ? mat.detalle : "[MATERIAL]";
     document.getElementById("producto-ejemplo").hidden = !p.ejemplo;
     document.getElementById("producto-dias").textContent =
-      "Se fabrica en " + (p.dias ? p.dias : "[X]") + " días hábiles · envío a todo el país";
+      (p.dias ? "Se fabrica en " + p.dias + " días hábiles" : "Tiempo de fabricación a confirmar") + " · envío a todo el país";
 
     var crumb = document.getElementById("crumb-cat");
     if (cat && crumb) {
@@ -692,6 +709,37 @@
     });
     document.getElementById("color-elegido").textContent = p.colores[0];
 
+    // Galería: foto grande + miniaturas
+    var principal = document.getElementById("foto-principal");
+    var miniaturas = document.querySelector(".gallery__thumbs");
+    if (principal && miniaturas && p.fotos && p.fotos.length) {
+      var etiquetas = ["Producto", /ambiente/.test(p.fotos[1] || "") ? "Ambiente" : "En uso", "Medidas", "Detalle", "En mano"];
+      var grande = document.createElement("img");
+      grande.alt = p.nombre;
+      principal.textContent = "";
+      principal.classList.add("ph--foto");
+      principal.appendChild(grande);
+      miniaturas.textContent = "";
+      miniaturas.style.gridTemplateColumns = "repeat(" + p.fotos.length + ", minmax(0, 1fr))";
+      p.fotos.forEach(function (ruta, i) {
+        var b = crear("button", "thumb thumb--foto" + (i === 0 ? " is-active" : ""));
+        b.type = "button";
+        b.setAttribute("aria-label", "Ver foto: " + (etiquetas[i] || i + 1));
+        b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+        var mini = document.createElement("img");
+        mini.src = ruta;
+        mini.alt = "";
+        mini.loading = "lazy";
+        b.appendChild(mini);
+        b.addEventListener("click", function () {
+          grande.src = ruta;
+          grande.alt = p.nombre + " · " + (etiquetas[i] || "");
+        });
+        miniaturas.appendChild(b);
+      });
+      grande.src = p.fotos[0];
+    }
+
     // Personalización
     var campo = document.getElementById("campo-personalizacion");
     campo.hidden = !p.personalizable;
@@ -708,7 +756,7 @@
     otros.slice(0, 4).forEach(function (x) {
       var a = crear("a", "related-card");
       a.href = "producto.html?id=" + encodeURIComponent(x.id);
-      a.appendChild(crear("div", "ph ph--" + x.categoria, "Foto"));
+      a.appendChild(bloqueFoto(x, 0, "Foto"));
       a.appendChild(crear("span", "related-card__name", x.nombre));
       a.appendChild(crear("span", "", precioTexto(x.precio)));
       rel.appendChild(a);
@@ -719,7 +767,7 @@
     var nombre = document.getElementById("producto-nombre");
     if (!nombre) return;
 
-    var id = new URLSearchParams(window.location.search).get("id") || "bandeja-organizadora";
+    var id = new URLSearchParams(window.location.search).get("id") || (CATALOGO.productos[0] && CATALOGO.productos[0].id);
     var producto = productoPorId(id) || CATALOGO.productos[0];
     if (producto) dibujarProducto(producto);
 
