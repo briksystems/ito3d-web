@@ -713,7 +713,12 @@
     var principal = document.getElementById("foto-principal");
     var miniaturas = document.querySelector(".gallery__thumbs");
     if (principal && miniaturas && p.fotos && p.fotos.length) {
-      var etiquetas = ["Producto", /ambiente/.test(p.fotos[1] || "") ? "Ambiente" : "En uso", "Medidas", "Detalle", "En mano", "Cable", "Por dentro"];
+      var NOMBRES_FOTO = { solo: "Producto", colores: "Colores", ambiente: "Ambiente", uso: "En uso", dimensiones: "Medidas",
+        detalle: "Detalle", "en-mano": "En mano", cable: "Cable", "por-dentro": "Por dentro" };
+      var etiquetas = p.fotos.map(function (r) {
+        var m = r.match(/_(?:\d_)?([a-z-]+)\.webp$/);
+        return m && NOMBRES_FOTO[m[1]] ? NOMBRES_FOTO[m[1]] : "";
+      });
       var grande = document.createElement("img");
       grande.alt = p.nombre;
       principal.textContent = "";
@@ -738,6 +743,14 @@
         miniaturas.appendChild(b);
       });
       grande.src = p.fotos[0];
+      // al elegir un color, mostrar la foto con todos los colores
+      var iColores = etiquetas.indexOf("Colores");
+      if (iColores > -1) {
+        cont.addEventListener("change", function () {
+          var t = miniaturas.children[iColores];
+          if (t) t.click();
+        });
+      }
     }
 
     // Personalización
