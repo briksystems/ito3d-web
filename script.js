@@ -43,6 +43,21 @@
     return precio === null || precio === undefined ? "Precio a consultar" : PESOS.format(precio);
   }
 
+  // Precio según la opción elegida (la opción va al inicio de "color": "Opción · Color")
+  function precioDe(p, color) {
+    if (p && p.preciosOpciones && p.opciones && color) {
+      var i = p.opciones.indexOf(String(color).split(" · ")[0]);
+      if (i >= 0 && p.preciosOpciones[i] !== undefined) return p.preciosOpciones[i];
+    }
+    return p ? p.precio : null;
+  }
+
+  // Precio para listados: "Desde" cuando el precio cambia según la opción
+  function precioListado(p) {
+    if (p && p.preciosOpciones && p.precio !== null && p.precio !== undefined) return "Desde " + PESOS.format(p.precio);
+    return precioTexto(p ? p.precio : null);
+  }
+
   /* Bloque de foto: usa la foto real si el producto la tiene; si no, el relleno de color */
   function bloqueFoto(p, indice, texto, clase) {
     var caja = crear("div", "ph ph--" + p.categoria + (clase ? " " + clase : ""));
@@ -133,6 +148,10 @@
       var agregar = e.target.closest("[data-agregar]");
       if (agregar) {
         var p = productoPorId(agregar.getAttribute("data-agregar"));
+        if (p && p.opciones && p.opciones.length) {
+          window.location.href = "producto.html?id=" + encodeURIComponent(p.id);
+          return;
+        }
         if (p) {
           agregarAlCarrito(p.id, p.colores[0], "", 1);
           agregar.textContent = "Agregado";
@@ -351,7 +370,7 @@
     item.appendChild(crear("p", "cat-item__meta", meta));
 
     var fila = crear("div", "cat-item__row");
-    fila.appendChild(crear("span", "cat-item__price", precioTexto(p.precio)));
+    fila.appendChild(crear("span", "cat-item__price", precioListado(p)));
     fila.appendChild(puntosDeColor(p.colores));
     item.appendChild(fila);
 
@@ -542,8 +561,9 @@
     var completo = true;
     carrito.forEach(function (l) {
       var p = productoPorId(l.id);
-      if (!p || p.precio === null || p.precio === undefined) completo = false;
-      else total += p.precio * l.cant;
+      var precio = precioDe(p, l.color);
+      if (!p || precio === null || precio === undefined) completo = false;
+      else total += precio * l.cant;
     });
     return { total: total, completo: completo };
   }
@@ -623,7 +643,7 @@
       li.appendChild(info);
 
       var lado = crear("div", "cart-line__side");
-      lado.appendChild(crear("span", "cart-line__price", precioTexto(p.precio === null ? null : p.precio * l.cant)));
+      lado.appendChild(crear("span", "cart-line__price", precioTexto(precioDe(p, l.color) === null ? null : precioDe(p, l.color) * l.cant)));
       var quitar = crear("button", "link-btn", "Quitar");
       quitar.type = "button";
       quitar.setAttribute("aria-label", "Quitar " + p.nombre + " del carrito");
@@ -681,7 +701,7 @@
   function setupPrecios() {
     document.querySelectorAll("[data-precio]").forEach(function (n) {
       var p = productoPorId(n.getAttribute("data-precio"));
-      if (p) n.textContent = precioTexto(p.precio);
+      if (p) n.textContent = precioListado(p);
     });
   }
 
@@ -722,7 +742,7 @@
 
     document.getElementById("producto-nombre").textContent = p.nombre;
     document.getElementById("crumb-producto").textContent = p.nombre;
-    document.getElementById("producto-precio").textContent = precioTexto(p.precio);
+    document.getElementById("producto-precio").textContent = precioListado(p);
     document.getElementById("producto-desc").textContent = p.descripcion || "[DESCRIPCIÓN CORTA]";
     document.getElementById("spec-medidas").textContent = medidasTexto(p);
     var mat = materialDe(p);
@@ -840,7 +860,7 @@
       a.href = "producto.html?id=" + encodeURIComponent(x.id);
       a.appendChild(bloqueFoto(x, 0, "Foto"));
       a.appendChild(crear("span", "related-card__name", x.nombre));
-      a.appendChild(crear("span", "", precioTexto(x.precio)));
+      a.appendChild(crear("span", "", precioListado(x)));
       rel.appendChild(a);
     });
   }
@@ -871,6 +891,8 @@
     function actualizarWhatsApp() {
       var color = colorActual();
       var marcado = document.querySelector('input[name="color"]:checked');
+      var precioNodo = document.getElementById("producto-precio");
+      if (precioNodo && producto && document.getElementById("opcion")) precioNodo.textContent = precioTexto(precioDe(producto, color));
       if (colorLabel) colorLabel.textContent = marcado ? marcado.value : "";
 
       var texto = "Hola, quiero pedir: " + nombre.textContent.trim();
