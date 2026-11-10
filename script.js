@@ -14,7 +14,7 @@
   var CLAVE_CARRITO = "ito3d-carrito";
   var CATALOGO = window.ITO_CATALOGO || { categorias: [], productos: [] };
   /* Versión de las fotos: al cambiar una foto, sube este número para que los navegadores no muestren la vieja */
-  var VERSION_FOTOS = "20261110f";
+  var VERSION_FOTOS = "20261110g";
   function conVersion(r) { return r && r.indexOf("?") < 0 ? r + "?v=" + VERSION_FOTOS : r; }
   CATALOGO.productos.forEach(function (p) {
     p.fotos = (p.fotos || []).map(conVersion);
