@@ -1061,6 +1061,100 @@ textarea:user-invalid {
   font-weight: 700;
 }
 
+/* Piezas de un producto (ej. accesorios del tablero) */
+.piezas {
+  margin-top: 56px;
+}
+
+.piezas h2 {
+  font-size: 28px;
+}
+
+.piezas__intro {
+  margin: 8px 0 20px;
+  color: var(--muted);
+}
+
+.piezas-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.pieza {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--bone);
+}
+
+.pieza.is-elegida {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+
+.pieza__fotos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pieza__foto {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  cursor: pointer;
+}
+
+.pieza__foto img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius-s);
+  background: var(--sand);
+}
+
+.pieza__nombre {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.pieza__desc {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.pieza__pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14px;
+}
+
+@media (min-width: 720px) {
+  .piezas-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .piezas-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 /* 5. COTIZA TU DISEÑO ----------------------------------------------------- */
 
 .page-hero {

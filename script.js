@@ -772,21 +772,25 @@
     // Galería: foto grande + miniaturas
     var principal = document.getElementById("foto-principal");
     var miniaturas = document.querySelector(".gallery__thumbs");
-    if (principal && miniaturas && p.fotos && p.fotos.length) {
-      var NOMBRES_FOTO = { solo: "Producto", colores: "Colores", ambiente: "Ambiente", uso: "En uso", dimensiones: "Medidas",
-        detalle: "Detalle", "en-mano": "En mano", cable: "Cable", "por-dentro": "Por dentro", plato: "Plato", "plato-removible": "Plato removible" };
-      var etiquetas = p.fotos.map(function (r) {
-        var m = r.match(/_(?:\d_)?([a-z-]+)\.webp$/);
-        return m && NOMBRES_FOTO[m[1]] ? NOMBRES_FOTO[m[1]] : "";
-      });
+    var NOMBRES_FOTO = { solo: "Producto", colores: "Colores", ambiente: "Ambiente", uso: "En uso", dimensiones: "Medidas",
+      detalle: "Detalle", "en-mano": "En mano", cable: "Cable", "por-dentro": "Por dentro", plato: "Plato", "plato-removible": "Plato removible",
+      "en-tablero": "En el tablero", kit: "Kit completo" };
+    function etiquetaFoto(r) {
+      var m = r.match(/_(?:\d_)?([a-z-]+)\.webp$/);
+      return m && NOMBRES_FOTO[m[1]] ? NOMBRES_FOTO[m[1]] : "";
+    }
+    var iColores = -1;
+    function pintarGaleria(fotos, titulo) {
+      if (!principal || !miniaturas || !fotos || !fotos.length) return;
+      var etiquetas = fotos.map(etiquetaFoto);
       var grande = document.createElement("img");
-      grande.alt = p.nombre;
+      grande.alt = titulo;
       principal.textContent = "";
       principal.classList.add("ph--foto");
       principal.appendChild(grande);
       miniaturas.textContent = "";
-      miniaturas.style.gridTemplateColumns = "repeat(" + p.fotos.length + ", minmax(0, 1fr))";
-      p.fotos.forEach(function (ruta, i) {
+      miniaturas.style.gridTemplateColumns = "repeat(" + fotos.length + ", minmax(0, 1fr))";
+      fotos.forEach(function (ruta, i) {
         var b = crear("button", "thumb thumb--foto" + (i === 0 ? " is-active" : ""));
         b.type = "button";
         b.setAttribute("aria-label", "Ver foto: " + (etiquetas[i] || i + 1));
@@ -798,18 +802,78 @@
         b.appendChild(mini);
         b.addEventListener("click", function () {
           grande.src = ruta;
-          grande.alt = p.nombre + " · " + (etiquetas[i] || "");
+          grande.alt = titulo + " · " + (etiquetas[i] || "");
+          Array.prototype.forEach.call(miniaturas.children, function (o) {
+            o.classList.toggle("is-active", o === b);
+            o.setAttribute("aria-pressed", o === b ? "true" : "false");
+          });
         });
         miniaturas.appendChild(b);
       });
-      grande.src = p.fotos[0];
-      // al elegir un color, mostrar la foto con todos los colores
-      var iColores = etiquetas.indexOf("Colores");
-      if (iColores > -1) {
-        cont.addEventListener("change", function () {
-          var t = miniaturas.children[iColores];
-          if (t) t.click();
+      grande.src = fotos[0];
+      iColores = etiquetas.indexOf("Colores");
+    }
+    pintarGaleria(p.fotos, p.nombre);
+    // al elegir un color, mostrar la foto con todos los colores
+    cont.addEventListener("change", function () {
+      var t = iColores > -1 && miniaturas && miniaturas.children[iColores];
+      if (t) t.click();
+    });
+
+    // Piezas: lista con fotos de cada una; al elegirla cambia la galería
+    var seccion = document.getElementById("piezas");
+    var selPieza = document.getElementById("opcion");
+    if (seccion) seccion.hidden = !(p.piezas && p.piezas.length);
+    if (seccion && p.piezas && p.piezas.length) {
+      document.getElementById("piezas-intro").textContent = p.piezasIntro || "";
+      var lista = document.getElementById("piezas-lista");
+      lista.textContent = "";
+      var tarjetas = [];
+      function piezaDeOpcion(valor) {
+        return p.piezas.filter(function (z) { return (z.opciones || [z.nombre]).indexOf(valor) > -1; })[0];
+      }
+      function marcar(valor) {
+        var z = piezaDeOpcion(valor);
+        tarjetas.forEach(function (t) { t.el.classList.toggle("is-elegida", t.pieza === z); });
+        pintarGaleria(z ? z.fotos : p.fotos, z ? p.nombre + " · " + z.nombre : p.nombre);
+      }
+      p.piezas.forEach(function (z) {
+        var card = crear("article", "pieza");
+        var fotos = crear("div", "pieza__fotos");
+        z.fotos.forEach(function (ruta) {
+          var b = crear("button", "pieza__foto");
+          b.type = "button";
+          var im = document.createElement("img");
+          im.src = ruta; im.alt = z.nombre + " · " + etiquetaFoto(ruta); im.loading = "lazy";
+          b.appendChild(im);
+          b.appendChild(crear("span", "", etiquetaFoto(ruta)));
+          b.addEventListener("click", function () { elegir(); });
+          fotos.appendChild(b);
         });
+        card.appendChild(fotos);
+        card.appendChild(crear("h3", "pieza__nombre", z.nombre));
+        card.appendChild(crear("p", "pieza__desc", z.descripcion));
+        var pie = crear("div", "pieza__pie");
+        pie.appendChild(crear("span", "", z.medidas));
+        var boton = crear("button", "btn btn--outline btn--sm", "Elegir esta pieza");
+        boton.type = "button";
+        boton.addEventListener("click", function () { elegir(); });
+        pie.appendChild(boton);
+        card.appendChild(pie);
+        function elegir() {
+          if (selPieza) {
+            selPieza.value = (z.opciones || [z.nombre])[0];
+            selPieza.dispatchEvent(new Event("change"));
+          }
+          var g = document.querySelector(".gallery");
+          if (g) g.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        tarjetas.push({ el: card, pieza: z });
+        lista.appendChild(card);
+      });
+      if (selPieza) {
+        selPieza.addEventListener("change", function () { marcar(selPieza.value); });
+        marcar(selPieza.value);
       }
     }
 
@@ -878,19 +942,6 @@
     if (selOpcion) selOpcion.addEventListener("change", actualizarWhatsApp);
     if (personal) personal.addEventListener("input", actualizarWhatsApp);
     actualizarWhatsApp();
-
-    // Miniaturas: marca la activa. Cuando haya fotos reales, aquí se cambia la imagen grande.
-    var thumbs = document.querySelectorAll(".thumb");
-    thumbs.forEach(function (t) {
-      t.addEventListener("click", function () {
-        thumbs.forEach(function (o) {
-          o.classList.remove("is-active");
-          o.setAttribute("aria-pressed", "false");
-        });
-        t.classList.add("is-active");
-        t.setAttribute("aria-pressed", "true");
-      });
-    });
 
     var agregar = document.getElementById("agregar-carrito");
     if (agregar && producto) {
