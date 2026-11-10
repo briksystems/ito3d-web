@@ -289,6 +289,43 @@
     panel.appendChild(aplicar);
   }
 
+  /* Pasar fotos dentro de la tarjeta sin entrar al producto: flechas, puntos y paso automático al pasar el cursor */
+  function galeriaEnTarjeta(p, media) {
+    var fotos = (p.fotos || []).filter(function (r) { return !/_3_dimensiones|_colores/.test(r); });
+    if (fotos.length < 2) return;
+    var img = media.querySelector("img");
+    if (!img) return;
+    var i = 0, timer = null;
+    var puntos = crear("div", "cat-dots");
+    fotos.forEach(function (_, k) { puntos.appendChild(crear("span", "cat-dots__d" + (k === 0 ? " is-on" : ""))); });
+    function ir(n) {
+      i = (n + fotos.length) % fotos.length;
+      img.src = fotos[i];
+      Array.prototype.forEach.call(puntos.children, function (d, k) { d.classList.toggle("is-on", k === i); });
+    }
+    function flecha(clase, etiqueta, paso) {
+      var b = crear("button", "cat-arrow " + clase, paso > 0 ? "›" : "‹");
+      b.type = "button";
+      b.setAttribute("aria-label", etiqueta + " de " + p.nombre);
+      b.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); detener(); ir(i + paso); });
+      return b;
+    }
+    function detener() { if (timer) { clearInterval(timer); timer = null; } }
+    media.appendChild(flecha("cat-arrow--prev", "Foto anterior", -1));
+    media.appendChild(flecha("cat-arrow--next", "Foto siguiente", 1));
+    media.appendChild(puntos);
+    // precargar al primer contacto
+    var precargado = false;
+    function precargar() { if (precargado) return; precargado = true; fotos.forEach(function (r) { var x = new Image(); x.src = r; }); }
+    media.addEventListener("mouseenter", function () {
+      precargar();
+      if (window.matchMedia && !window.matchMedia("(hover: hover)").matches) return;
+      detener(); ir(i + 1); timer = setInterval(function () { ir(i + 1); }, 1300);
+    });
+    media.addEventListener("mouseleave", function () { detener(); });
+    media.addEventListener("touchstart", precargar, { passive: true });
+  }
+
   function tarjetaDeProducto(p) {
     var item = crear("article", "cat-item");
 
@@ -298,6 +335,7 @@
     media.appendChild(bloqueFoto(p, 0, "Foto del producto"));
     if (p.ejemplo) media.appendChild(crear("span", "badge-ejemplo", "Ejemplo"));
     enlace.appendChild(media);
+    galeriaEnTarjeta(p, media);
     enlace.appendChild(crear("h3", "cat-item__name", p.nombre));
     item.appendChild(enlace);
 
@@ -736,7 +774,7 @@
     var miniaturas = document.querySelector(".gallery__thumbs");
     if (principal && miniaturas && p.fotos && p.fotos.length) {
       var NOMBRES_FOTO = { solo: "Producto", colores: "Colores", ambiente: "Ambiente", uso: "En uso", dimensiones: "Medidas",
-        detalle: "Detalle", "en-mano": "En mano", cable: "Cable", "por-dentro": "Por dentro" };
+        detalle: "Detalle", "en-mano": "En mano", cable: "Cable", "por-dentro": "Por dentro", plato: "Plato", "plato-removible": "Plato removible" };
       var etiquetas = p.fotos.map(function (r) {
         var m = r.match(/_(?:\d_)?([a-z-]+)\.webp$/);
         return m && NOMBRES_FOTO[m[1]] ? NOMBRES_FOTO[m[1]] : "";

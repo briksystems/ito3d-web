@@ -2249,6 +2249,23 @@ html:has(dialog[open]) {
 .cat-item__media {
   position: relative;
 }
+.cat-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 32px; height: 32px; border-radius: 50%; border: 0;
+  background: rgba(255, 255, 255, 0.88); color: #141414;
+  font-size: 22px; line-height: 30px; text-align: center; cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); z-index: 2;
+  opacity: 0; transition: opacity 0.2s;
+}
+.cat-arrow--prev { left: 8px; }
+.cat-arrow--next { right: 8px; }
+.cat-item__media:hover .cat-arrow, .cat-arrow:focus-visible { opacity: 1; }
+@media (hover: none) { .cat-arrow { opacity: 1; width: 28px; height: 28px; font-size: 20px; line-height: 26px; } }
+.cat-dots {
+  position: absolute; left: 0; right: 0; bottom: 8px; display: flex; justify-content: center; gap: 5px; z-index: 2; pointer-events: none;
+}
+.cat-dots__d { width: 6px; height: 6px; border-radius: 50%; background: rgba(20, 20, 20, 0.25); }
+.cat-dots__d.is-on { background: rgba(20, 20, 20, 0.75); }
 
 .cat-item__meta {
   margin-top: -4px;
