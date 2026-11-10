@@ -14,7 +14,7 @@
   var CLAVE_CARRITO = "ito3d-carrito";
   var CATALOGO = window.ITO_CATALOGO || { categorias: [], productos: [] };
   /* Versión de las fotos: al cambiar una foto, sube este número para que los navegadores no muestren la vieja */
-  var VERSION_FOTOS = "20261110b";
+  var VERSION_FOTOS = "20261110c";
   function conVersion(r) { return r && r.indexOf("?") < 0 ? r + "?v=" + VERSION_FOTOS : r; }
   CATALOGO.productos.forEach(function (p) {
     p.fotos = (p.fotos || []).map(conVersion);
@@ -41,6 +41,21 @@
 
   function precioTexto(precio) {
     return precio === null || precio === undefined ? "Precio a consultar" : PESOS.format(precio);
+  }
+
+  // Precio según la opción elegida (la opción va al inicio de "color": "Opción · Color")
+  function precioDe(p, color) {
+    if (p && p.preciosOpciones && p.opciones && color) {
+      var i = p.opciones.indexOf(String(color).split(" · ")[0]);
+      if (i >= 0 && p.preciosOpciones[i] !== undefined) return p.preciosOpciones[i];
+    }
+    return p ? p.precio : null;
+  }
+
+  // Precio para listados: "Desde" cuando el precio cambia según la opción
+  function precioListado(p) {
+    if (p && p.preciosOpciones && p.precio !== null && p.precio !== undefined) return "Desde " + PESOS.format(p.precio);
+    return precioTexto(p ? p.precio : null);
   }
 
   /* Bloque de foto: usa la foto real si el producto la tiene; si no, el relleno de color */
@@ -133,6 +148,10 @@
       var agregar = e.target.closest("[data-agregar]");
       if (agregar) {
         var p = productoPorId(agregar.getAttribute("data-agregar"));
+        if (p && p.opciones && p.opciones.length) {
+          window.location.href = "producto.html?id=" + encodeURIComponent(p.id);
+          return;
+        }
         if (p) {
           agregarAlCarrito(p.id, p.colores[0], "", 1);
           agregar.textContent = "Agregado";
@@ -351,7 +370,7 @@
     item.appendChild(crear("p", "cat-item__meta", meta));
 
     var fila = crear("div", "cat-item__row");
-    fila.appendChild(crear("span", "cat-item__price", precioTexto(p.precio)));
+    fila.appendChild(crear("span", "cat-item__price", precioListado(p)));
     fila.appendChild(puntosDeColor(p.colores));
     item.appendChild(fila);
 
@@ -542,8 +561,9 @@
     var completo = true;
     carrito.forEach(function (l) {
       var p = productoPorId(l.id);
-      if (!p || p.precio === null || p.precio === undefined) completo = false;
-      else total += p.precio * l.cant;
+      var precio = precioDe(p, l.color);
+      if (!p || precio === null || precio === undefined) completo = false;
+      else total += precio * l.cant;
     });
     return { total: total, completo: completo };
   }
@@ -623,7 +643,7 @@
       li.appendChild(info);
 
       var lado = crear("div", "cart-line__side");
-      lado.appendChild(crear("span", "cart-line__price", precioTexto(p.precio === null ? null : p.precio * l.cant)));
+      lado.appendChild(crear("span", "cart-line__price", precioTexto(precioDe(p, l.color) === null ? null : precioDe(p, l.color) * l.cant)));
       var quitar = crear("button", "link-btn", "Quitar");
       quitar.type = "button";
       quitar.setAttribute("aria-label", "Quitar " + p.nombre + " del carrito");
@@ -681,7 +701,7 @@
   function setupPrecios() {
     document.querySelectorAll("[data-precio]").forEach(function (n) {
       var p = productoPorId(n.getAttribute("data-precio"));
-      if (p) n.textContent = precioTexto(p.precio);
+      if (p) n.textContent = precioListado(p);
     });
   }
 
@@ -722,7 +742,7 @@
 
     document.getElementById("producto-nombre").textContent = p.nombre;
     document.getElementById("crumb-producto").textContent = p.nombre;
-    document.getElementById("producto-precio").textContent = precioTexto(p.precio);
+    document.getElementById("producto-precio").textContent = precioListado(p);
     document.getElementById("producto-desc").textContent = p.descripcion || "[DESCRIPCIÓN CORTA]";
     document.getElementById("spec-medidas").textContent = medidasTexto(p);
     var mat = materialDe(p);
@@ -779,21 +799,25 @@
     // Galería: foto grande + miniaturas
     var principal = document.getElementById("foto-principal");
     var miniaturas = document.querySelector(".gallery__thumbs");
-    if (principal && miniaturas && p.fotos && p.fotos.length) {
-      var NOMBRES_FOTO = { solo: "Producto", colores: "Colores", ambiente: "Ambiente", uso: "En uso", dimensiones: "Medidas",
-        detalle: "Detalle", "en-mano": "En mano", cable: "Cable", "por-dentro": "Por dentro", plato: "Plato", "plato-removible": "Plato removible" };
-      var etiquetas = p.fotos.map(function (r) {
-        var m = r.match(/_(?:\d_)?([a-z-]+)\.webp(?:\?.*)?$/);
-        return m && NOMBRES_FOTO[m[1]] ? NOMBRES_FOTO[m[1]] : "";
-      });
+    var NOMBRES_FOTO = { solo: "Producto", colores: "Colores", ambiente: "Ambiente", uso: "En uso", dimensiones: "Medidas",
+      detalle: "Detalle", "en-mano": "En mano", cable: "Cable", "por-dentro": "Por dentro", plato: "Plato", "plato-removible": "Plato removible",
+      "en-tablero": "En el tablero", kit: "Kit completo" };
+    function etiquetaFoto(r) {
+      var m = r.match(/_(?:\d_)?([a-z-]+)\.webp(?:\?.*)?$/);
+      return m && NOMBRES_FOTO[m[1]] ? NOMBRES_FOTO[m[1]] : "";
+    }
+    var iColores = -1;
+    function pintarGaleria(fotos, titulo) {
+      if (!principal || !miniaturas || !fotos || !fotos.length) return;
+      var etiquetas = fotos.map(etiquetaFoto);
       var grande = document.createElement("img");
-      grande.alt = p.nombre;
+      grande.alt = titulo;
       principal.textContent = "";
       principal.classList.add("ph--foto");
       principal.appendChild(grande);
       miniaturas.textContent = "";
-      miniaturas.style.gridTemplateColumns = "repeat(" + p.fotos.length + ", minmax(0, 1fr))";
-      p.fotos.forEach(function (ruta, i) {
+      miniaturas.style.gridTemplateColumns = "repeat(" + fotos.length + ", minmax(0, 1fr))";
+      fotos.forEach(function (ruta, i) {
         var b = crear("button", "thumb thumb--foto" + (i === 0 ? " is-active" : ""));
         b.type = "button";
         b.setAttribute("aria-label", "Ver foto: " + (etiquetas[i] || i + 1));
@@ -805,18 +829,78 @@
         b.appendChild(mini);
         b.addEventListener("click", function () {
           grande.src = ruta;
-          grande.alt = p.nombre + " · " + (etiquetas[i] || "");
+          grande.alt = titulo + " · " + (etiquetas[i] || "");
+          Array.prototype.forEach.call(miniaturas.children, function (o) {
+            o.classList.toggle("is-active", o === b);
+            o.setAttribute("aria-pressed", o === b ? "true" : "false");
+          });
         });
         miniaturas.appendChild(b);
       });
-      grande.src = p.fotos[0];
-      // al elegir un color, mostrar la foto con todos los colores
-      var iColores = etiquetas.indexOf("Colores");
-      if (iColores > -1) {
-        cont.addEventListener("change", function () {
-          var t = miniaturas.children[iColores];
-          if (t) t.click();
+      grande.src = fotos[0];
+      iColores = etiquetas.indexOf("Colores");
+    }
+    pintarGaleria(p.fotos, p.nombre);
+    // al elegir un color, mostrar la foto con todos los colores
+    cont.addEventListener("change", function () {
+      var t = iColores > -1 && miniaturas && miniaturas.children[iColores];
+      if (t) t.click();
+    });
+
+    // Piezas: lista con fotos de cada una; al elegirla cambia la galería
+    var seccion = document.getElementById("piezas");
+    var selPieza = document.getElementById("opcion");
+    if (seccion) seccion.hidden = !(p.piezas && p.piezas.length);
+    if (seccion && p.piezas && p.piezas.length) {
+      document.getElementById("piezas-intro").textContent = p.piezasIntro || "";
+      var lista = document.getElementById("piezas-lista");
+      lista.textContent = "";
+      var tarjetas = [];
+      function piezaDeOpcion(valor) {
+        return p.piezas.filter(function (z) { return (z.opciones || [z.nombre]).indexOf(valor) > -1; })[0];
+      }
+      function marcar(valor) {
+        var z = piezaDeOpcion(valor);
+        tarjetas.forEach(function (t) { t.el.classList.toggle("is-elegida", t.pieza === z); });
+        pintarGaleria(z ? z.fotos : p.fotos, z ? p.nombre + " · " + z.nombre : p.nombre);
+      }
+      p.piezas.forEach(function (z) {
+        var card = crear("article", "pieza");
+        var fotos = crear("div", "pieza__fotos");
+        z.fotos.forEach(function (ruta) {
+          var b = crear("button", "pieza__foto");
+          b.type = "button";
+          var im = document.createElement("img");
+          im.src = ruta; im.alt = z.nombre + " · " + etiquetaFoto(ruta); im.loading = "lazy";
+          b.appendChild(im);
+          b.appendChild(crear("span", "", etiquetaFoto(ruta)));
+          b.addEventListener("click", function () { elegir(); });
+          fotos.appendChild(b);
         });
+        card.appendChild(fotos);
+        card.appendChild(crear("h3", "pieza__nombre", z.nombre));
+        card.appendChild(crear("p", "pieza__desc", z.descripcion));
+        var pie = crear("div", "pieza__pie");
+        pie.appendChild(crear("span", "", z.medidas));
+        var boton = crear("button", "btn btn--outline btn--sm", "Elegir esta pieza");
+        boton.type = "button";
+        boton.addEventListener("click", function () { elegir(); });
+        pie.appendChild(boton);
+        card.appendChild(pie);
+        function elegir() {
+          if (selPieza) {
+            selPieza.value = (z.opciones || [z.nombre])[0];
+            selPieza.dispatchEvent(new Event("change"));
+          }
+          var g = document.querySelector(".gallery");
+          if (g) g.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        tarjetas.push({ el: card, pieza: z });
+        lista.appendChild(card);
+      });
+      if (selPieza) {
+        selPieza.addEventListener("change", function () { marcar(selPieza.value); });
+        marcar(selPieza.value);
       }
     }
 
@@ -840,7 +924,7 @@
       a.href = "producto.html?id=" + encodeURIComponent(x.id);
       a.appendChild(bloqueFoto(x, 0, "Foto"));
       a.appendChild(crear("span", "related-card__name", x.nombre));
-      a.appendChild(crear("span", "", precioTexto(x.precio)));
+      a.appendChild(crear("span", "", precioListado(x)));
       rel.appendChild(a);
     });
   }
@@ -871,6 +955,8 @@
     function actualizarWhatsApp() {
       var color = colorActual();
       var marcado = document.querySelector('input[name="color"]:checked');
+      var precioNodo = document.getElementById("producto-precio");
+      if (precioNodo && producto && document.getElementById("opcion")) precioNodo.textContent = precioTexto(precioDe(producto, color));
       if (colorLabel) colorLabel.textContent = marcado ? marcado.value : "";
 
       var texto = "Hola, quiero pedir: " + nombre.textContent.trim();
@@ -885,19 +971,6 @@
     if (selOpcion) selOpcion.addEventListener("change", actualizarWhatsApp);
     if (personal) personal.addEventListener("input", actualizarWhatsApp);
     actualizarWhatsApp();
-
-    // Miniaturas: marca la activa. Cuando haya fotos reales, aquí se cambia la imagen grande.
-    var thumbs = document.querySelectorAll(".thumb");
-    thumbs.forEach(function (t) {
-      t.addEventListener("click", function () {
-        thumbs.forEach(function (o) {
-          o.classList.remove("is-active");
-          o.setAttribute("aria-pressed", "false");
-        });
-        t.classList.add("is-active");
-        t.setAttribute("aria-pressed", "true");
-      });
-    });
 
     var agregar = document.getElementById("agregar-carrito");
     if (agregar && producto) {
