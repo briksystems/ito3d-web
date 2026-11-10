@@ -9,7 +9,7 @@
   "use strict";
 
   /* Número de WhatsApp Business con código de país, sin + ni espacios */
-  var WHATSAPP_NUMBER = "573142155358";
+  var WHATSAPP_NUMBER = "573001299545";
 
   var CLAVE_CARRITO = "ito3d-carrito";
   var CATALOGO = window.ITO_CATALOGO || { categorias: [], productos: [] };
