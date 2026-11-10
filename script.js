@@ -568,6 +568,41 @@
     return { total: total, completo: completo };
   }
 
+  /* Envío: zona elegida, costo y meta de envío gratis */
+  var ENVIO = CATALOGO.envio || null;
+  var CLAVE_ZONA = "ito3d-zona";
+
+  function zonaElegida() {
+    var id = null;
+    try { id = window.localStorage.getItem(CLAVE_ZONA); } catch (e) { id = null; }
+    if (!ENVIO) return null;
+    for (var i = 0; i < ENVIO.zonas.length; i++) if (ENVIO.zonas[i].id === id) return ENVIO.zonas[i];
+    return null;
+  }
+
+  function guardarZona(id) {
+    try { window.localStorage.setItem(CLAVE_ZONA, id); } catch (e) { /* sin almacenamiento */ }
+  }
+
+  function pesoCarrito() {
+    return carrito.reduce(function (s, l) {
+      var p = productoPorId(l.id);
+      return s + (p && p.envioKg ? p.envioKg : 1) * l.cant;
+    }, 0);
+  }
+
+  // Devuelve { estado: "gratis" | "valor" | "cotizar" | "sin-zona", valor, faltan }
+  function envioCarrito(subtotal) {
+    if (!ENVIO) return { estado: "cotizar", valor: null, faltan: null };
+    var zona = zonaElegida();
+    var faltan = Math.max(0, ENVIO.gratisDesde - subtotal);
+    if (zona && zona.base === null) return { estado: "cotizar", valor: null, faltan: null, zona: zona };
+    if (subtotal >= ENVIO.gratisDesde) return { estado: "gratis", valor: 0, faltan: 0, zona: zona };
+    if (!zona) return { estado: "sin-zona", valor: null, faltan: faltan };
+    var extra = Math.max(0, Math.ceil(pesoCarrito() - zona.kgIncluidos - 1e-9));
+    return { estado: "valor", valor: zona.base + extra * zona.kgExtra, faltan: faltan, zona: zona };
+  }
+
   function textoPedido() {
     var t = totalCarrito();
     var lineas = ["Hola, quiero hacer este pedido:"];
@@ -577,7 +612,17 @@
       if (l.texto) detalle.push('personalizado con "' + l.texto + '"');
       lineas.push("- " + l.cant + " x " + p.nombre + " (" + detalle.join(", ") + ")");
     });
-    lineas.push(t.completo ? "Total: " + PESOS.format(t.total) : "Total: por confirmar");
+    var env = envioCarrito(t.total);
+    if (!t.completo) {
+      lineas.push("Total: por confirmar");
+    } else {
+      lineas.push("Subtotal: " + PESOS.format(t.total));
+      if (env.zona) lineas.push("Destino: " + env.zona.nombre);
+      if (env.estado === "gratis") lineas.push("Envío: gratis");
+      else if (env.estado === "valor") lineas.push("Envío: " + PESOS.format(env.valor));
+      else lineas.push("Envío: por cotizar (mi ciudad es: )");
+      lineas.push("Total: " + (env.valor === null ? "por confirmar" : PESOS.format(t.total + env.valor)));
+    }
     return lineas.join("\n");
   }
 
@@ -587,6 +632,50 @@
     b.setAttribute("aria-label", etiqueta);
     b.addEventListener("click", accion);
     return b;
+  }
+
+  function dibujarEnvio(pie, t, env) {
+    if (!pie || !ENVIO) return;
+    var caja = document.getElementById("carrito-envio");
+    if (!caja) {
+      caja = crear("div", "cart__ship");
+      caja.id = "carrito-envio";
+      var lab = crear("label", "cart__ship-label", "Destino del envío");
+      lab.setAttribute("for", "carrito-zona");
+      var sel = document.createElement("select");
+      sel.id = "carrito-zona";
+      var vacia = document.createElement("option");
+      vacia.value = ""; vacia.textContent = "Elige tu ciudad";
+      sel.appendChild(vacia);
+      ENVIO.zonas.forEach(function (z) {
+        var op = document.createElement("option");
+        op.value = z.id; op.textContent = z.nombre;
+        sel.appendChild(op);
+      });
+      sel.addEventListener("change", function () { guardarZona(sel.value); dibujarCarrito(); });
+      caja.appendChild(lab);
+      caja.appendChild(sel);
+      caja.appendChild(crear("div", "cart__row", ""));
+      caja.appendChild(crear("div", "cart__row", ""));
+      caja.appendChild(crear("p", "cart__free", ""));
+      var total = pie.querySelector(".cart__total");
+      pie.insertBefore(caja, total);
+    }
+    var zona = zonaElegida();
+    document.getElementById("carrito-zona").value = zona ? zona.id : "";
+    var filas = caja.querySelectorAll(".cart__row");
+    filas[0].textContent = "";
+    filas[0].appendChild(crear("span", "", "Subtotal"));
+    filas[0].appendChild(crear("span", "", t.completo ? PESOS.format(t.total) : "Por confirmar"));
+    filas[1].textContent = "";
+    filas[1].appendChild(crear("span", "", "Envío"));
+    var valor = env.estado === "gratis" ? "Gratis" : env.estado === "valor" ? PESOS.format(env.valor)
+      : env.estado === "cotizar" ? "Por cotizar" : "Elige el destino";
+    filas[1].appendChild(crear("span", env.estado === "gratis" ? "cart__gratis" : "", valor));
+    var libre = caja.querySelector(".cart__free");
+    if (!t.completo || env.estado === "cotizar") libre.textContent = "";
+    else if (env.estado === "gratis") libre.textContent = "Tu pedido tiene envío gratis.";
+    else libre.textContent = "Te faltan " + PESOS.format(env.faltan) + " para el envío gratis (desde " + PESOS.format(ENVIO.gratisDesde) + ").";
   }
 
   function dibujarCarrito() {
@@ -659,10 +748,14 @@
     });
 
     var t = totalCarrito();
-    totalEl.textContent = t.completo ? PESOS.format(t.total) : "Por confirmar";
-    nota.textContent = t.completo
-      ? "Paga este valor en Wompi."
-      : "Algunos precios aún no están definidos. Confirmamos el total por WhatsApp.";
+    var env = envioCarrito(t.total);
+    dibujarEnvio(pie, t, env);
+    var conEnvio = t.completo && env.valor !== null;
+    totalEl.textContent = conEnvio ? PESOS.format(t.total + env.valor) : "Por confirmar";
+    if (!t.completo) nota.textContent = "Algunos precios aún no están definidos. Confirmamos el total por WhatsApp.";
+    else if (env.estado === "sin-zona") nota.textContent = "Elige el destino para calcular el envío.";
+    else if (env.estado === "cotizar") nota.textContent = "Para tu zona cotizamos el envío por WhatsApp.";
+    else nota.textContent = "Paga este valor en Wompi.";
     if (wa) wa.href = waLink(textoPedido());
   }
 
@@ -749,7 +842,7 @@
     document.getElementById("spec-material").textContent = mat ? mat.detalle : "[MATERIAL]";
     document.getElementById("producto-ejemplo").hidden = !p.ejemplo;
     document.getElementById("producto-dias").textContent =
-      (p.dias ? "Se fabrica en " + p.dias + " días hábiles" : "Tiempo de fabricación a confirmar") + " · envío a todo el país";
+      (p.dias ? "Se fabrica en " + p.dias + " días hábiles" : "Tiempo de fabricación a confirmar") + " · envío a todo el país" + (CATALOGO.envio ? ", gratis desde " + PESOS.format(CATALOGO.envio.gratisDesde) : "");
 
     var crumb = document.getElementById("crumb-cat");
     if (cat && crumb) {

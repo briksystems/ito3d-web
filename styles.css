@@ -2153,6 +2153,46 @@ html:has(dialog[open]) {
   color: var(--muted);
 }
 
+.cart__ship {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cart__ship-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cart__ship select {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+  border: 1px solid var(--field-border);
+  border-radius: 10px;
+  background: var(--bone);
+  color: inherit;
+}
+
+.cart__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.cart__gratis {
+  font-weight: 700;
+  color: var(--ok);
+}
+
+.cart__free {
+  font-size: 13px;
+  color: var(--muted);
+}
+
 @media (min-width: 768px) {
   .modal__box {
     padding: 24px 28px 32px;
