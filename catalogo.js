@@ -145,7 +145,7 @@ window.ITO_CATALOGO = {
       fotos: ["img/productos/organizador-estuches/organizador-estuches_1_solo.webp", "img/productos/organizador-estuches/organizador-estuches_colores.webp", "img/productos/organizador-estuches/organizador-estuches_2_uso.webp", "img/productos/organizador-estuches/organizador-estuches_3_dimensiones.webp", "img/productos/organizador-estuches/organizador-estuches_4_detalle.webp", "img/productos/organizador-estuches/organizador-estuches_5_en-mano.webp"] },
     { id: "gancho-audifonos", categoria: "gaming", nombre: "Gancho para audífonos bajo el escritorio", precio: null,
       descripcion: "Cuelga los audífonos debajo del escritorio. Se fija con dos tornillos.",
-      medidas: [5.8, 8.2, 3.2], material: "estandar", colores: ["Carbón", "Bermellón", "Hueso"],
+      medidas: [8.2, 3.2, 5.8], material: "estandar", colores: ["Carbón", "Bermellón", "Hueso"],
       personalizable: false, dias: null, creado: "2026-11-10",
       fotos: ["img/productos/gancho-audifonos/gancho-audifonos_1_solo.webp", "img/productos/gancho-audifonos/gancho-audifonos_colores.webp", "img/productos/gancho-audifonos/gancho-audifonos_2_uso.webp", "img/productos/gancho-audifonos/gancho-audifonos_3_dimensiones.webp", "img/productos/gancho-audifonos/gancho-audifonos_4_detalle.webp", "img/productos/gancho-audifonos/gancho-audifonos_5_en-mano.webp"] },
     { id: "soporte-celular", categoria: "tech", nombre: "Soporte para celular", precio: null,
