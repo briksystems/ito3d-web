@@ -46,7 +46,11 @@
   // Precio según la opción elegida (la opción va al inicio de "color": "Opción · Color")
   function precioDe(p, color) {
     if (p && p.preciosOpciones && p.opciones && color) {
-      var i = p.opciones.indexOf(String(color).split(" · ")[0]);
+      // La opción puede contener " · " (ej. "Hilo · x5"): se busca la opción más larga que coincida
+      var c = String(color), i = -1, largo = -1;
+      p.opciones.forEach(function (o, k) {
+        if ((c === o || c.indexOf(o + " · ") === 0) && o.length > largo) { i = k; largo = o.length; }
+      });
       if (i >= 0 && p.preciosOpciones[i] !== undefined) return p.preciosOpciones[i];
     }
     return p ? p.precio : null;
