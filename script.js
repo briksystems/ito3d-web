@@ -20,7 +20,7 @@
     p.fotos = (p.fotos || []).map(conVersion);
     (p.piezas || []).forEach(function (z) { z.fotos = (z.fotos || []).map(conVersion); });
   });
-  var CLASE_COLOR = { "Carbón": "carbon", "Hueso": "hueso", "Arena": "arena", "Bermellón": "bermellon", "Gris": "gris", "Salvia": "salvia" };
+  var CLASE_COLOR = { "Carbón": "carbon", "Blanco": "blanco", "Hueso": "hueso", "Arena": "arena", "Bermellón": "bermellon", "Gris": "gris", "Salvia": "salvia" };
   var PESOS = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 
   // Marca la página como "con JS" para que el menú del celular arranque cerrado
@@ -560,6 +560,9 @@
     avisar((p ? p.nombre : "Producto") + " agregado al carrito.");
   }
 
+  // El taller KASA (kasa.html) agrega al carrito desde su propio script
+  window.ITO_agregarAlCarrito = function (id, color, texto, cant) { agregarAlCarrito(id, color, texto, cant || 1); };
+
   function totalCarrito() {
     var total = 0;
     var completo = true;
@@ -840,7 +843,16 @@
     document.getElementById("producto-nombre").textContent = p.nombre;
     document.getElementById("crumb-producto").textContent = p.nombre;
     document.getElementById("producto-precio").textContent = precioListado(p);
-    document.getElementById("producto-desc").textContent = p.descripcion || "[DESCRIPCIÓN CORTA]";
+    var desc = document.getElementById("producto-desc");
+    desc.textContent = p.descripcion || "[DESCRIPCIÓN CORTA]";
+    // Productos con página propia (ej. el taller KASA): enlace para diseñarlo allá
+    if (p.enlace && !document.getElementById("producto-enlace")) {
+      var ir = crear("a", "btn btn--outline", "Diséñala en 3D en el taller KASA");
+      ir.id = "producto-enlace";
+      ir.href = p.enlace;
+      ir.style.marginTop = "14px";
+      desc.insertAdjacentElement("afterend", ir);
+    }
     document.getElementById("spec-medidas").textContent = medidasTexto(p);
     var mat = materialDe(p);
     document.getElementById("spec-material").textContent = mat ? mat.detalle : "[MATERIAL]";
