@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KASA · Diseña tu propia lámpara · ITO 3D</title>
+  <meta name="description" content="KASA es el sistema de lámparas de ITO 3D: una base con luz LED y pantallas intercambiables. Elige diseño y colores, y cámbiale la pantalla cuando quieras.">
+  <meta name="theme-color" content="#16120e">
+  <meta property="og:title" content="KASA · Diseña tu propia lámpara">
+  <meta property="og:description" content="Una base. Once pantallas. Todas las lámparas que quieras.">
+  <meta property="og:image" content="img/kasa/kasa-escena-noche.webp">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+  <link rel="stylesheet" href="styles.css?v=20261124a">
+  <link rel="stylesheet" href="kasa.css?v=20261124a">
+  <script type="importmap">{"imports":{"three":"./kasa/vendor/three.module.min.js","three/addons/":"./kasa/vendor/jsm/"}}</script>
+  <link rel="modulepreload" href="kasa/vendor/three.module.min.js">
+  <script src="catalogo.js?v=20261124a" defer></script>
+  <script src="script.js?v=20261124a" defer></script>
+  <script type="module" src="kasa.js?v=20261124a"></script>
+</head>
+<body class="kasa-page">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="header-row">
+      <button class="icon-btn menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="logo" href="index.html">
+        <img src="ito3d-horizontal-color.svg" alt="ITO 3D, ir al inicio" width="124" height="40">
+      </a>
+      <div class="header-actions">
+        <a class="icon-btn" href="tienda.html?buscar=1" aria-label="Buscar en la tienda"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a>
+        <button class="icon-btn cart-btn" type="button" aria-label="Abrir carrito" data-abrir-carrito><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="cart-count" hidden>0</span></button>
+        <a class="btn btn--wa" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D.">WhatsApp</a>
+      </div>
+      <nav class="main-nav" id="menu-principal" aria-label="Principal">
+        <!-- Empresas y Nosotros aún no tienen página: pendiente en la maqueta -->
+        <a href="index.html">Inicio</a>
+        <a href="tienda.html">Tienda</a>
+        <a href="tienda.html?categoria=navidad">Navidad</a>
+        <a href="kasa.html" aria-current="page">Lámparas KASA</a>
+        <a href="cotiza.html">Cotiza tu diseño</a>
+        <a href="empresas.html">Empresas</a>
+        <a href="nosotros.html">Nosotros</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- 1. TALLER: el configurador es la portada -->
+    <section class="kz-taller" id="taller" aria-labelledby="kz-titulo" data-luz="off">
+      <div class="kz-taller__grid">
+
+        <div class="kz-escena">
+          <p class="kz-escena__nombre" aria-hidden="true"><span id="kz-nombre-grande">OLA</span></p>
+          <canvas id="kz-lienzo" aria-label="Vista 3D de tu lámpara KASA. Arrastra para girarla."></canvas>
+          <div class="kz-escena__carga" id="kz-carga"><span></span>Preparando el taller…</div>
+          <p class="kz-escena__pista" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+            Arrastra para girarla
+          </p>
+          <button class="kz-interruptor" type="button" id="kz-interruptor" aria-pressed="false">
+            <span class="kz-interruptor__punto" aria-hidden="true"></span>
+            <span class="kz-interruptor__txt">Encender</span>
+          </button>
+        </div>
+
+        <div class="kz-panel">
+          <p class="kz-sello"><span lang="ja" aria-hidden="true">笠</span> Nuevo · Sistema de lámparas</p>
+          <h1 id="kz-titulo"><span class="kz-marca">KASA</span><span class="kz-h1-sub">Diseña tu propia lámpara.</span></h1>
+          <p class="kz-lead">Una base con luz. Once pantallas que encajan en ella. Eliges el diseño y los colores, y cuando quieras otra lámpara, solo cambias la pantalla.</p>
+
+          <div class="kz-paso">
+            <div class="kz-paso__head"><span class="kz-num">1</span><h2>Elige la pantalla</h2><span class="kz-paso__valor" id="kz-v-pantalla">Ola</span></div>
+            <div class="kz-pantallas" id="kz-pantallas" role="radiogroup" aria-label="Pantalla"></div>
+          </div>
+
+          <div class="kz-paso">
+            <div class="kz-paso__head"><span class="kz-num">2</span><h2>Color de la base</h2><span class="kz-paso__valor" id="kz-v-base">Carbón</span></div>
+            <div class="kz-colores" id="kz-colores-base" role="radiogroup" aria-label="Color de la base"></div>
+          </div>
+
+          <div class="kz-paso">
+            <div class="kz-paso__head"><span class="kz-num">3</span><h2>Color de la pantalla</h2><span class="kz-paso__valor" id="kz-v-tono">Blanco</span></div>
+            <div class="kz-colores" id="kz-colores-pantalla" role="radiogroup" aria-label="Color de la pantalla"></div>
+          </div>
+
+          <div class="kz-paso kz-paso--luz">
+            <div class="kz-paso__head"><span class="kz-num">4</span><h2>Pruébala encendida</h2></div>
+            <label class="kz-dimmer">
+              <span>Intensidad</span>
+              <input type="range" id="kz-intensidad" min="10" max="100" value="80" aria-label="Intensidad de la luz">
+            </label>
+          </div>
+
+          <div class="kz-resumen">
+            <div class="kz-resumen__linea">
+              <div>
+                <p class="kz-resumen__t">Tu KASA</p>
+                <p class="kz-resumen__d" id="kz-resumen">Ola · base Carbón · pantalla Blanco</p>
+              </div>
+              <p class="kz-resumen__p" id="kz-precio-kit">—</p>
+            </div>
+            <p class="kz-resumen__inc">Incluye base, luz LED con cable USB-C y la pantalla. Fabricada a pedido.</p>
+            <div class="kz-acciones">
+              <button class="btn btn--primary btn--lg" type="button" id="kz-agregar-kit">Agregar al carrito</button>
+              <a class="btn btn--outline btn--lg" href="#" id="kz-wa" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+            </div>
+            <div class="kz-ya">
+              <span>¿Ya tienes tu base KASA?</span>
+              <button class="link-btn" type="button" id="kz-agregar-pantalla">Agregar solo la pantalla · <b id="kz-precio-pantalla">—</b></button>
+            </div>
+            <button class="kz-compartir" type="button" id="kz-compartir">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+              Copiar el enlace de mi diseño
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. CÓMO FUNCIONA: vista explotada guiada por el scroll -->
+    <section class="kz-sistema" id="sistema" aria-labelledby="kz-sistema-t">
+      <div class="container">
+        <p class="eyebrow">Cómo funciona</p>
+        <h2 id="kz-sistema-t" class="kz-h2">Una base. Todas las lámparas que quieras.</h2>
+      </div>
+      <div class="kz-sistema__grid container">
+        <div class="kz-sistema__visor">
+          <canvas id="kz-explota" aria-hidden="true"></canvas>
+          <div class="kz-etiquetas" id="kz-etiquetas" aria-hidden="true">
+            <span class="kz-et" data-parte="pantalla">Pantalla</span>
+            <span class="kz-et" data-parte="ranura">Ranura de encaje · 7 mm</span>
+            <span class="kz-et" data-parte="luz">Luz LED cálida</span>
+            <span class="kz-et" data-parte="base">Base</span>
+            <span class="kz-et" data-parte="cable">Cable USB-C</span>
+          </div>
+        </div>
+        <ol class="kz-pasos">
+          <li class="kz-pasos__item is-on" data-paso="0">
+            <span class="kz-pasos__n">01</span>
+            <h3>La base es para siempre</h3>
+            <p>Una pieza sólida de 10,2 cm con 84 hilos en relieve y nuestro sello 糸. La eliges en el color que va con tu espacio: carbón, arena, salvia, bermellón o hueso.</p>
+          </li>
+          <li class="kz-pasos__item" data-paso="1">
+            <span class="kz-pasos__n">02</span>
+            <h3>La luz va escondida adentro</h3>
+            <p>Un disco LED de luz cálida queda al ras dentro de la base. El cable USB-C sale por detrás, así que la conectas a cualquier cargador de celular. Sin bombillos y casi sin calor.</p>
+          </li>
+          <li class="kz-pasos__item" data-paso="2">
+            <span class="kz-pasos__n">03</span>
+            <h3>La pantalla encaja sola</h3>
+            <p>Todas las pantallas KASA tienen la misma boca de 8,8 cm. Entra 7 mm en la ranura de la base y queda firme. Sin tornillos, sin herramientas.</p>
+          </li>
+          <li class="kz-pasos__item" data-paso="3">
+            <span class="kz-pasos__n">04</span>
+            <h3>Cambia de lámpara en un segundo</h3>
+            <p>¿Te antojaste de otra? Compra solo la pantalla. Levantas la que tienes, pones la nueva y listo: misma base, otra lámpara. Para cada temporada, para cada cuarto.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 3. COLECCIÓN -->
+    <section class="kz-coleccion" id="coleccion" aria-labelledby="kz-col-t">
+      <div class="container">
+        <div class="kz-coleccion__head">
+          <div>
+            <p class="eyebrow">La colección</p>
+            <h2 id="kz-col-t" class="kz-h2">Once pantallas. Una para cada ánimo.</h2>
+          </div>
+          <p class="kz-coleccion__nota">Toca una para probarla en tu base.</p>
+        </div>
+        <div class="kz-galeria" id="kz-galeria"></div>
+      </div>
+    </section>
+
+    <!-- 4. AMBIENTE -->
+    <section class="kz-ambiente" aria-label="KASA en casa">
+      <img src="img/kasa/kasa-escena-noche.webp" alt="Tres lámparas KASA encendidas sobre una mesa: Ola en base carbón, Gota en base arena y Hongo en base salvia" loading="lazy" decoding="async">
+      <div class="kz-ambiente__txt">
+        <p class="kz-ambiente__big">Misma base.<br>Otra lámpara.</p>
+      </div>
+    </section>
+
+    <!-- 5. FICHA DEL SISTEMA -->
+    <section class="container kz-ficha" aria-labelledby="kz-ficha-t">
+      <h2 id="kz-ficha-t" class="kz-h2">Lo que tienes que saber</h2>
+      <div class="kz-ficha__grid">
+        <div class="kz-dato"><span class="kz-dato__n">10,2 × 2,2 cm</span><span>Base, en 5 colores</span></div>
+        <div class="kz-dato"><span class="kz-dato__n">13 a 18 cm</span><span>Alto de las pantallas</span></div>
+        <div class="kz-dato"><span class="kz-dato__n">LED cálida</span><span>Luz suave que casi no calienta</span></div>
+        <div class="kz-dato"><span class="kz-dato__n">USB-C</span><span>Se conecta a cualquier cargador</span></div>
+        <div class="kz-dato"><span class="kz-dato__n">PLA</span><span>Plástico de origen vegetal</span></div>
+        <div class="kz-dato"><span class="kz-dato__n">4 días hábiles</span><span>Fabricación a pedido, envío a toda Colombia</span></div>
+      </div>
+      <div class="kz-faq">
+        <details>
+          <summary>¿Qué incluye el kit de inicio?</summary>
+          <p>La base en el color que elijas, el disco de luz LED con su cable USB-C y una pantalla. Solo necesitas un cargador de celular para conectarla.</p>
+        </details>
+        <details>
+          <summary>¿Las pantallas sirven en cualquier base KASA?</summary>
+          <p>Sí. Todas las pantallas tienen exactamente la misma boca, así que cualquier pantalla encaja en cualquier base, sin importar el color o el diseño.</p>
+        </details>
+        <details>
+          <summary>¿Puedo pedir solo pantallas?</summary>
+          <p>Claro. Si ya tienes tu base, eliges la pantalla en el taller de arriba y la agregas sola al carrito.</p>
+        </details>
+        <details>
+          <summary>¿Por qué se llama KASA?</summary>
+          <p>Kasa (笠) es la palabra japonesa para la pantalla que cubre una lámpara. Como ito (糸), el hilo que le da nombre a nuestra marca.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="kz-cta">
+      <div class="container kz-cta__in">
+        <h2 class="kz-h2">¿Ya sabes cuál es la tuya?</h2>
+        <a class="btn btn--primary btn--lg" href="#taller">Diseñar mi lámpara</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="ito3d-horizontal-fondo-oscuro.svg" alt="ITO 3D" width="124" height="40">
+          <p>Hilo a hilo. Objetos impresos en 3D, hechos en Colombia.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Tienda</h2>
+          <a href="tienda.html?categoria=casa">Casa</a>
+          <a href="tienda.html?categoria=floreros">Floreros</a>
+          <a href="tienda.html?categoria=gaming">Gaming</a>
+          <a href="tienda.html?categoria=tech">Tech</a>
+          <a href="tienda.html?categoria=navidad">Navidad</a>
+        </div>
+        <div class="footer-col">
+          <h2>ITO 3D</h2>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="empresas.html">Empresas</a>
+          <a href="cotiza.html">Cotiza tu diseño</a>
+        </div>
+        <div class="footer-col">
+          <h2>Ayuda</h2>
+          <a href="#">Preguntas frecuentes</a>
+          <a href="#">Envíos</a>
+          <a href="#">Cambios y retracto</a>
+          <a href="#">Términos</a>
+          <a href="#">Datos personales</a>
+          <a href="https://checkout.wompi.co/l/VPOS_indO9a" target="_blank" rel="noopener">Pagar con Wompi</a>
+        </div>
+        <div class="footer-col">
+          <h2>Contacto</h2>
+          <a href="https://wa.me/573001299545" target="_blank" rel="noopener">WhatsApp 300 129 9545</a>
+          <a href="mailto:ito3d.co@gmail.com">ito3d.co@gmail.com</a>
+          <a href="https://instagram.com/ito3d.co" target="_blank" rel="noopener">Instagram @ito3d.co</a>
+          <span>Bogotá, Colombia</span>
+          <span>Pagos: tarjeta, PSE y Nequi</span>
+        </div>
+      </div>
+      <p class="footer-legal">© 2026 ITO 3D · [RUT / NIT]</p>
+    </div>
+  </footer>
+
+
+  <dialog class="modal modal--drawer" id="carrito-panel" aria-labelledby="carrito-titulo">
+    <div class="modal__box cart">
+      <div class="modal__head">
+        <h2 id="carrito-titulo">Tu carrito</h2>
+        <button class="icon-btn" type="button" data-cerrar aria-label="Cerrar carrito"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="cart__empty" id="carrito-vacio">
+        <p>Tu carrito está vacío.</p>
+        <a class="btn btn--outline" href="tienda.html">Ver la tienda</a>
+      </div>
+      <ul class="cart__list" id="carrito-lista"></ul>
+      <div class="cart__foot" id="carrito-pie" hidden>
+        <div class="cart__total"><span>Total</span><strong id="carrito-total"></strong></div>
+        <p class="cart__note" id="carrito-nota"></p>
+        <a class="btn btn--primary btn--lg btn--block" href="https://checkout.wompi.co/l/VPOS_indO9a" target="_blank" rel="noopener">Pagar con Wompi</a>
+        <a class="btn btn--outline btn--lg btn--block" href="#" id="carrito-wa" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        <button class="link-btn" type="button" id="carrito-vaciar">Vaciar carrito</button>
+      </div>
+    </div>
+  </dialog>
+
+  <p class="sr-only" id="aviso-global" role="status" aria-live="polite"></p>
+
+  <a class="wa-float" href="#" data-wa data-wa-text="Hola, quiero más información sobre ITO 3D." aria-label="Escribir por WhatsApp">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+</body>
+</html>
